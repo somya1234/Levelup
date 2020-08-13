@@ -2,7 +2,7 @@
 2. multiJumps - done.
 1. https://practice.geeksforgeeks.org/problems/rat-in-a-maze-problem/1  -> done 
 2. https://www.geeksforgeeks.org/rat-in-a-maze-with-multiple-steps-jump-allowed/?ref=rp  -> done.
-3. https://practice.geeksforgeeks.org/problems/special-matrix/0 - TLE (coming).
+3. https://practice.geeksforgeeks.org/problems/special-matrix/0 - done..
 4. https://www.geeksforgeeks.org/the-knights-tour-problem-backtracking-1/ - done.
 
 5. q17 leetcode -> done.

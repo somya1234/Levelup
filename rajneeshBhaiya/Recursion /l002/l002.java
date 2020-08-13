@@ -18,17 +18,18 @@ public class l002 {
         // System.out.println(coinChangeSingleCommbinationSubsq_(coin, tar, "", 0));
 
         int nBox = 6;
-        // boolean[] visited = new boolean[nBox];
-        // int tnq = 3; //total number of queens
-        // System.out.println(oneDQueenPermutation(visited,tnq,0,0, ""));
+        boolean[] visited = new boolean[nBox];
+        int tnq = 3; //total number of queens
+        System.out.println(oneDQueenPermutation(visited,tnq,0,0, ""));
+        // System.out.println(oneDQueenPermutationSubsq(visited, 0,tnq, 0, ""));
         // System.out.println(oneDQueenCombination(nBox, tnq, 0, 0, ""));
 
-        int m = 4;
-        int n = 4;
-        int tnq  = 4;
+        // int m = 4;
+        // int n = 4;
+        // int tnq  = 4;
         // System.out.println(twoDQueenCombination(m, n, tnq,0, 0, ""));
-        boolean[][] visited = new boolean[m][n];
-        System.out.println(twoDQueenPermutation(m, n, visited, tnq, 0, 0, ""));
+        // boolean[][] visited = new boolean[m][n];
+        // System.out.println(twoDQueenPermutation(m, n, visited, tnq, 0, 0, ""));
     }
 
     public static int coinChangePermutationInfinite(int[] arr, int idx,int target, String ans){
@@ -174,7 +175,7 @@ public class l002 {
         }
 
         int count = 0;
-        int n = visited.length;
+        int n = visited.length; //gives total boxes.
         for(int i=idx;i<n;i++){
             if(!visited[i]){
                 visited[i] = true; //visit mark 
@@ -182,6 +183,26 @@ public class l002 {
                 visited[i] = false;
             }
         }
+        return count;
+    }
+
+    public static int oneDQueenPermutationSubsq(boolean[] visited, int idx, int tnq, int qno ,String ans){
+        if(qno==tnq){
+            System.out.println(ans);
+            return 1;
+        } else if( idx == visited.length){
+            return 0;
+        }
+
+        int count = 0;
+        //box1 allowed to sit the queen
+        if(!visited[idx]){
+            visited[idx] = true; // so that a box doesn't allow 2 queens to sit.
+            count+= oneDQueenPermutationSubsq(visited, 0, tnq, qno+1, ans+"b"+idx+"q"+qno+" ");
+            visited[idx] = false; //so that more permuatations can be considered.
+        }
+        //box did not allowed the queen to sit. 
+        count+= oneDQueenPermutationSubsq(visited, idx+1, tnq, qno, ans);
         return count;
     }
 

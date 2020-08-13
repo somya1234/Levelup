@@ -39,5 +39,89 @@ public class leetcode {
         }
     }
     /********************************************************************************* */
+    /**************************************************************************************** */
+
+    //Question 40. Combination Sum II (V.Imp)
+    // It is like Unique combinations (as we have done unique permutations in lecture 1.)
+    //not talking about single combinations.
+
+    //note - On leetcode, output of sample example is wrong.
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> sans = new ArrayList<>();
+        Arrays.sort(candidates);
+        findC(candidates,target, sans ,ans,0);
+        return ans;
+    }
+    
+    public void findC(int[] candidates, int target, List<Integer> sans, List<List<Integer>> ans, int idx){
+        if(target == 0){
+            List<Integer> base = new ArrayList<>(sans);
+            ans.add(base);
+            return;
+        }
+        
+        int n = candidates.length;
+        HashSet<Integer> hs = new HashSet<>();
+        for(int i=idx;i<n;i++){
+            if(target-candidates[i]>=0 && !(hs.contains(candidates[i]))){
+                sans.add(candidates[i]);
+                hs.add(candidates[i]); //for uniqueness of elements.
+                findC(candidates, target-candidates[i],sans,ans, i+1);
+                sans.remove(sans.size()-1);
+            }
+        }
+    }
+    /**************************************************************************************** */
+    /********************************************************************************************* */
+    //Question 77. -> Combinations 
+
+    //( 1--> n ), find all combinations pair of size k
+    public List<List<Integer>> combine(int n, int k) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> sans = new ArrayList<>();
+        findCombinations(1,n,k,sans,ans);
+        return ans;
+    }
+    public void findCombinations(int idx, int n, int k, List<Integer> sans, List<List<Integer>> ans){
+        
+        if(sans.size()==k){
+            List<Integer> base = new ArrayList<>(sans);
+            ans.add(base);
+            return;
+        }
+        
+        for(int i=idx;i<=n;i++){
+            sans.add(i);
+            //do (i+1) in the call -> major error.
+            findCombinations(i+1,n, k, sans, ans);
+            sans.remove(sans.size()-1);
+        }
+    }
+    /********************************************************************************************* */
+    /********************************************************************************************* */
+    // Q 216 -> Combinations Sum III (like single combinations.)
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> sans = new ArrayList<>();
+        find3PairC(n,k,1,sans,ans);
+        return ans;
+    }
+    public void find3PairC(int n, int k, int idx, List<Integer> sans, List<List<Integer>> ans){
+        if(n==0 && k==0){
+            List<Integer> base = new ArrayList<>(sans);
+            ans.add(base);
+            return;
+        }
+        
+        for(int i=idx;i<=9;i++){
+            if(n-i>=0){
+                sans.add(i);
+                find3PairC(n-i,k-1,i+1,sans,ans);
+                sans.remove(sans.size()-1);
+            }
+        }
+    }
+    /********************************************************************************************* */
     
 }
