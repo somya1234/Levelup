@@ -1,0 +1,1 @@
+javac l002.java && java l002 > output.txt
