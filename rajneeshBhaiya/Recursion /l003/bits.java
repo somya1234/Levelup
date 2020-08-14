@@ -13,14 +13,16 @@ public class bits {
     /**************************************************************************************** */
 
     public static int offOn(int n, int k){
-        int mask = (1<<k);
-        n = ( n | mask);
-        return n;
+        //shift kth bit times or (idx) times.
+       int mask = (1<<k);
+       n = (n | mask);
+       return n;
     }
 
     public static int onOff(int n, int k){
-        int mask = (~(1<<k));
-        n = (n & mask);
+        // always use bits under brackets
+       int mask = (~(1<<k));
+       n = (n & mask);
         return n;
     }
 
