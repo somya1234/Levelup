@@ -3,3 +3,4 @@
 3. Leetcode Q 137 -> Single Number II 
 Link for Bits Table
 https://introcs.cs.princeton.edu/java/61data/ 
+4. Leetcode Q 169 -> Majority Element 
