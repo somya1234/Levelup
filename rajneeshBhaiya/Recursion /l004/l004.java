@@ -4,9 +4,10 @@ public class l004 {
     }
 
     public static void solve(){
-        int n = 0001101010;
+        int n = 247; //7 1's
         // System.out.println(countBits(n));
-        System.out.println(countBits02(n));
+        // System.out.println(countBits02(n));
+        System.out.println(countBits03(n));
 
     }
 
@@ -42,4 +43,13 @@ public class l004 {
         return count;
     }
     /********************************************************** */
+    public static int countBits03( int n ){
+        int count = 0;
+        while(n!=0){
+            count++;
+            int mask = ( n & (-n)); // and with 2's complement gives right most set bit. 
+            n = (n ^ mask); 
+        }
+        return count;
+    }
 }
