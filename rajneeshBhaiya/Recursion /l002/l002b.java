@@ -1,13 +1,16 @@
+import java.util.HashSet;
+
 public class l002b {
     public static void main(String[] args) {
         solve();
     }
     public static void solve(){
         // tnq -> total no of queens 
-        int n = 4, m = 4, tnq = 4;
-        boolean[][] box = new boolean[n][m];
-        System.out.println(NQueenCombination(box, 0, tnq, ""));
-        System.out.println(NQueenCombination_best(box, 0, tnq, ""));
+        // int n = 4, m = 4, tnq = 4;
+        // boolean[][] box = new boolean[n][m];
+        // System.out.println(NQueenCombination(box, 0, tnq, ""));
+        // System.out.println(NQueenCombination_best(box, 0, tnq, ""));
+        wordBreak();
     }
 
     /*************************************************************************************** */
@@ -74,4 +77,34 @@ public class l002b {
     }
 
     /********************************************************************************************* */
+    //wordBreak 
+    public static void wordBreak(){
+        String ques = "ilikesamsungandmango";
+        String[] word = {"mango","samsung","sam","sung","man","mango","icecream","and","go","i","like"
+    ,"cream","ilike"};
+
+    HashSet<String> words = new HashSet<>();
+    int maxLenWord = 0;
+    for(String s:word){
+        maxLenWord = Math.max(maxLenWord,s.length());
+        words.add(s);
+    }
+    System.out.println(wordBreak(ques, 0, "", maxLenWord, words));
+    }
+
+    public static int wordBreak(String ques, int idx, String ans,int maxLenWord, HashSet<String> words){
+        if(idx == ques.length()){
+            System.out.println(ans);
+            return 1;
+        }
+
+        int count = 0;
+        for(int i=(idx+1); i<= (idx+1+maxLenWord) && i<=ques.length();i++ ){
+            String str = ques.substring(idx,i);
+            if(words.contains(str)){
+                count+=wordBreak(ques, i, ans+str+" ", maxLenWord, words);
+            }
+        }
+        return count;
+    }
 }

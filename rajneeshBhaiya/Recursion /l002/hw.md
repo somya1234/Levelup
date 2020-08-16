@@ -5,7 +5,6 @@
 5. Word Break Prwoblem 
 6. Crypto Arithmetic
 7. Q 52 of Leetcode 
-8. combination of 1D queen subsequence.
 
 /*************************************
 1. Leetoode Q38 -> Combination Sum -> (done.)

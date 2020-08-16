@@ -20,9 +20,10 @@ public class l002 {
         int nBox = 6;
         boolean[] visited = new boolean[nBox];
         int tnq = 3; //total number of queens
-        System.out.println(oneDQueenPermutation(visited,tnq,0,0, ""));
+        // System.out.println(oneDQueenPermutation(visited,tnq,0,0, ""));
         // System.out.println(oneDQueenPermutationSubsq(visited, 0,tnq, 0, ""));
         // System.out.println(oneDQueenCombination(nBox, tnq, 0, 0, ""));
+        System.out.println(oneDQueenCombinationSubsq(nBox, tnq, 0, 0, ""));
 
         // int m = 4;
         // int n = 4;
@@ -207,6 +208,7 @@ public class l002 {
     }
 
     public static int oneDQueenCombination(int nBox, int tnq, int qno, int idx, String ans){
+        //queen chooses which box to sit on 
         // e.g of Single Combination 
         if(qno == tnq){
             System.out.println(ans);
@@ -217,6 +219,21 @@ public class l002 {
         for(int i=idx;i<nBox;i++){
             count+=oneDQueenCombination(nBox, tnq, qno+1, i+1, ans+"b"+i+"q"+qno+" ");
         }
+        return count;
+    }
+
+    public static int oneDQueenCombinationSubsq(int Nbox, int tnq, int qno, int idx, String ans){
+        //box allows the queen to sit or next queen or not any queen 
+        if(qno==tnq){
+            System.out.println(ans);
+            return 1;
+        } else if(idx == Nbox){
+            return 0;
+        }
+
+        int count = 0;
+        count+= oneDQueenCombinationSubsq(Nbox, tnq, qno+1, idx+1, ans+"q"+qno+"b"+idx+" ");
+        count+= oneDQueenCombinationSubsq(Nbox, tnq, qno, idx+1, ans);
         return count;
     }
     
