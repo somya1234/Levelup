@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
+import java.util.*;
 
 public class l004 {
     public static void main(String[] args) {
@@ -44,6 +45,9 @@ public class l004 {
         // leftView(root);
         // rightView(root);
         // verticalOrder(root); // giving warning 
+        // verticalOrderSum(root);
+        // bottomView_RightPrefer(root);
+        bottomView_LeftPrefer(root);
     }
 
     /******************************************************************************************* */
@@ -220,6 +224,98 @@ public static class vPair{
 // }
 
 // 2. vertical order sum 
-    
+    public static void verticalOrderSum(Node node){
+        int[] minMax = new int[2];
+        width(node, 0, minMax);
+        int[] ans = new int[minMax[1]-minMax[0]+1];
+        LinkedList<vPair> que = new LinkedList<>();
+        que.addLast(new vPair(node,Math.abs(minMax[0])));
+
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                vPair top = que.removeFirst();
+                Node vnode = top.vnode;
+                int level = top.level;
+                ans[level]+=vnode.data;
+                if(vnode.left!=null) { que.addLast(new vPair(vnode.left, level-1)); }
+                if(vnode.right!=null){ que.addLast(new vPair(vnode.right, level+1)); }
+            }
+        }
+        for(int i=0;i<ans.length;i++){
+            System.out.println(ans[i]);
+        }
+    }
+
+    //3. bottom view -> prefer to see right element when two are last (behind each other)
+    public static void bottomView_RightPrefer(Node node){
+        int[] minMax = new int[2];
+        width(node, 0, minMax);
+        int[] ans = new int[minMax[1]-minMax[0]+1];
+        LinkedList<vPair> que = new LinkedList<>();
+        que.addLast(new vPair(node, Math.abs(minMax[0])));
+
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                vPair top = que.removeFirst();
+                Node vnode = top.vnode;
+                int level = top.level;
+                ans[level] = vnode.data;
+                if(vnode.left!=null) { que.addLast(new vPair(vnode.left, level-1)); }
+                if(vnode.right!=null) { que.addLast(new vPair(vnode.right, level+1));}
+            }
+        }
+        for(int i=0;i<ans.length;i++){
+            System.out.println(ans[i]);
+        }
+    }
+
+    //3. bottom view -> prefer to see left element when two are last (behind each other)
+    public static class bpair{
+        Node vnode;
+        int level;
+        int height = 0;
+        bpair(Node vnode, int level, int height){
+            this.vnode = vnode;
+            this.level = level;
+            this.height = height;
+        }
+    }
+
+    public static void bottomView_LeftPrefer(Node node){
+        int[] minMax = new int[2];
+        width(node,0 , minMax);
+        bpair[] ans = new bpair[minMax[1]-minMax[0]+1];
+        LinkedList<bpair> que = new LinkedList<>();
+        que.addLast(new bpair(node,Math.abs(minMax[0]),1)); //very important Math.abs() --> for level
+
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                bpair top = que.removeFirst();
+                Node vnode = top.vnode;
+                int level = top.level;
+                int height = top.height;
+                if(ans[level]==null){
+                    ans[level] = top;
+                }
+                if(height>ans[level].height){
+                    // can do ans[level] = top; ,or 
+                    ans[level].height = height;
+                    ans[level].vnode = vnode;
+                }
+                if(vnode.left!=null){
+                    que.addLast(new bpair(vnode.left, level-1, height+1));
+                }
+                if(vnode.right!=null){
+                    que.addLast(new bpair(vnode.right, level+1, height+1));
+                }
+            }
+        }
+        for(int i=0;i<ans.length;i++){
+            System.out.println(ans[i].vnode.data);
+        }
+    }
 
 }
