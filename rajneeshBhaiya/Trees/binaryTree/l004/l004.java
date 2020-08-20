@@ -43,7 +43,7 @@ public class l004 {
         // zigZagPrint(root);
         // leftView(root);
         // rightView(root);
-        verticalOrder(root);
+        // verticalOrder(root); // giving warning 
     }
 
     /******************************************************************************************* */
@@ -160,6 +160,10 @@ public static void rightView(Node node){
     }
 }
 
+
+//================= vertical Order series 
+// 1. vertical order 
+
 public static void width(Node node, int level, int[] minMax){
     if(node == null){
         return;
@@ -173,73 +177,49 @@ public static void width(Node node, int level, int[] minMax){
 }
 
 public static class vPair{
-    Node node;
+    Node vnode = null;
     int level;
-    vPair(Node node, int level){
-        this.node = node;
+    vPair(Node vnode, int level){
+        this.vnode = vnode;
         this.level = level;
     }
 }
 
-public static void verticalOrder(Node node){
-    int[] minMax = new int[2];
-    width(node,0,minMax);
-    ArrayList<Integer>[] ans = new ArrayList[minMax[1]-minMax[0]+1];
-
-    for(int i=0;i<ans.length;i++){
-        ans[i] = new ArrayList<>();
-    }
-
-    LinkedList<vPair> que = new LinkedList<>();
-    que.add(new vPair(node, Math.abs(minMax[0])));
-    while(que.size()!=0){
-        int size = que.size();
-        while(size-->0){
-            vPair top = que.removeFirst();
-
-            Node topNode = top.node;
-            int topLevel = top.level;
-            ans[topLevel].add(topNode.data);
-
-            if(topNode.left!=null ){
-                que.addLast(new vPair(topNode.left, topLevel-1));
-            }
-            if(topNode.right!=null){
-                que.addLast(new vPair(topNode.right, topLevel+1));
-            }
-
-        }
-    }
-    for(int i=0;i<ans.length;i++){
-        System.out.println(ans[i]);
-    }
-}
-
 // public static void verticalOrder(Node node){
-//     int[] minMax = new int[2];
-//     // width(root,0,minMax);
-//     ArrayList<Integer>[] ans = new ArrayList[minMax[1] - minMax[0] +1];
-//     for(int i=0;i<ans.length; i++){
-//         ans[i] = new LinkedList();
-//     } 
-//     LinkedList<vPair> que = new LinkedList<>();
-//     que.addLast(new Pair(node, Maths.abs(minMax[0])));
+    // int[] minMax = new int[2];
+    // width(node,0,minMax);
+    // ArrayList<Integer>[] ans = new ArrayList[minMax[1]-minMax[0]+1];
 
-//     while(que.size()!=0){
-//         int size = que.size();
-//         while(size-->0){
-//             //rvtx -> removed vertex
-//             vPair rvtx = que.removeFirst();
-//             Node node = rvtx.node;
-//             int level = rvtx.level;
-            
-//             ans[level].add(node.data);
+    // for(int i=0;i<ans.length;i++){
+    //     ans[i] = new ArrayList<Integer>();
+    // }
 
-//             if(node.left!=null) que.addLast(new vPair(node.left, level - 1));
-//             if(node.right!=null) que.addLast(new vPair(node.right, level - 1));
+    // LinkedList<vPair> que = new LinkedList<>();
+    // que.addLast(new vPair(node, Math.abs(minMax[0])));
+    // while(que.size()!=0){
+    //     int size = que.size();
+    //     while(size-->0){
+    //         vPair top = que.removeFirst();
+
+    //         Node topNode = top.vnode;
+//             int topLevel = top.level;
+//             ans[topLevel].add(topNode.data);
+
+//             if(topNode.left!=null ){
+//                 que.addLast(new vPair(topNode.left, topLevel-1));
+//             }
+//             if(topNode.right!=null){
+//                 que.addLast(new vPair(topNode.right, topLevel+1));
+//             }
 
 //         }
 //     }
+//     for(int i=0;i<ans.length;i++){
+//         System.out.println(ans[i]);
+//     }
 // }
+
+// 2. vertical order sum 
+    
 
 }
