@@ -382,6 +382,46 @@ public static class vPair{
     }
 
     //6. Diagonal Order 
-    
+
+
+    //7. boundary Traversal 
+    public static void boundaryTraversal(Node node){
+        int[] minMax = new int[2];
+        width(node, 0, minMax);
+        Node[] ans = new Node[minMax[1]-minMax[0]+1];
+        LinkedList<bpair> que = new LinkedList<>();
+        que.addLast(new bpair(node,Math.abs(minMax[0]),1));
+
+        while(que.size()!=0){
+            int size = que.size();
+            int maxHeight = 0;
+            while(size-->0){
+                bpair top = que.removeFirst();
+                Node vnode = top.vnode;
+                int level = top.level;
+                int height = top.height;
+                if(ans[level]==null){
+                    ans[level] = vnode;
+                    maxHeight = height;
+                } else if(height>maxHeight){
+                    ans[level].add(node);
+                    maxHeight = height;
+                }
+                if(vnode.left!=null) { que.addLast(new bpair(vnode.left, level-1, height+1)); }
+                if(vnode.right!=null){ que.addLast(new bpair(vnode.right, level+1, height+1)); }
+            }
+        }
+        int idx = Math.abs(minMax[0]);
+        if(ans[idx] != null){
+            System.out.println(ans[idx].data);
+        }
+        int left = idx-1;
+        int right = idx+1;
+        while(left>=0 || right<ans.length){
+            if(left>=0 && ans[left]!=null) { System.out.print(ans[left].data+" "); }
+            if(right<ans.length && ans[right]!=null) { System.out.println(ans[right].data); }
+            left--; right++;
+        }
+    }
 
 }
