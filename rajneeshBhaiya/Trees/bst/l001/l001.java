@@ -10,6 +10,7 @@ public class l001 {
         display(root);
     }
 
+    /*********************************************************************************** */
     public static Node constructBST(ArrayList<Integer> arr, int si, int ei){
         if(si>ei) { return null; }
 
@@ -23,10 +24,14 @@ public class l001 {
 
     public static void display(Node node){
         if(node == null){
-            return node;
+            return;
         }
+        StringBuilder sb = new StringBuilder();
 
-
+        sb.append(node.left!=null ? node.left.data : ".");
+        ab.append(" <- "+node.data+" -> ");
+        sb.append(node.right!=null ? node.right.data:".");
+        System.out.println(sb.toString());
 
         if(node.left!=null) { display(node.left); }
         if(node.right!=null){ display(node.right); }
@@ -49,17 +54,17 @@ public class l001 {
         return node;
     }
 
-    public static void BstUsingPostorder(int[] arr, int lRange, int rRange){
+    // public static void BstUsingPostorder(int[] arr, int lRange, int rRange){
 
 
-        Node node = new Node(arr[idx--]);
-        node.right  BstUsingPostorder(arr,node.data,rRange);
-        node.left = 
-    }
+    //     Node node = new Node(arr[idx--]);
+    //     node.right  BstUsingPostorder(arr,node.data,rRange);
+    //     node.left = 
+    // }
 
-    public static Node BstUsingPreorder(){
-        int[] arr = {7,3,1,0,2,6,4,5,12,9,8,11,10,13,15,14};
-        display(BstUsingPreOrder(arr, -(int)1e8, (int)1e8));
-    }
+    // public static Node BstUsingPreorder(){
+    //     int[] arr = {7,3,1,0,2,6,4,5,12,9,8,11,10,13,15,14};
+    //     display(BstUsingPreOrder(arr, -(int)1e8, (int)1e8));
+    // }
 
 }
