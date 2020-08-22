@@ -114,5 +114,40 @@ public class l002 {
             }
         }
     }    
+    /****************************************************************************************************************** */
+    public static Node addNode(Node node, int data){
+        if(node == null){
+            return new Node(data);
+        }
+
+        if(data<node.data){
+            node.left = addNode(node.left, data);
+        } else {
+            node.right = addNode(node.right, data);
+        }
+        return node;
+    }
+/*************************************************************************************************** */
+
+    public static Node removeData(Node node, int data){
+        if(node == null){
+            return node;
+        }
+
+        if(data<node.data){
+            node.left = removeData(node.left, data);
+        } else if(data>node.data){
+            node.right = removeData(node.right, data);
+        } else {
+            if(node.left == null || node.right==null){
+                return node.left!=null ? node.left : node.right;
+            }
+            int minEle = minimum(node.right);
+            node.data = minEle;
+            node.right = removeData(node.right, minEle);
+        }
+        return node;
+    }
+    /***************************************************************************************************** */
 
 }

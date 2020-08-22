@@ -7,4 +7,6 @@ lecture see dev - 17
 
 trees - l001
 
+mohit sir - dp qs, time and space qs.
+
 Juspay 2 questions 
