@@ -5,8 +5,8 @@
 lecture see ds -> 17,18
 lecture see dev - 17 
 
-trees - l001
+trees (bst)- l001,l002
 
 mohit sir - dp qs, time and space qs.
 
-Juspay 2 questions 
+Juspay 2 questions -> work ladder and count Squares 
