@@ -1,4 +1,7 @@
-10
-20 30
-40 70
-120
+size is 13
+height is 3
+find is true
+pred is 2
+succ is 5
+ceil is 11
+floor is 9

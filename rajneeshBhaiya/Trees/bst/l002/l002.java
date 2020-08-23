@@ -5,11 +5,10 @@ public class l002 {
     }
 
     public static void solve(){
-        int[] arr = {1,2,4,8,-1,-1,9,-1,-1,5,10,-1,-1,11,-1,-1,3,6,-1,13,-1,-1,7,14,-1,-1,-1};
-        Node root = construct(arr);
+        int[] arr = {16,25,41,42,46,53,55,60,62,63,64,65,70,74};
+        Node root = construct(arr, 0, arr.length-1);
         display(root);
-        allSolutions(root);
-
+        predSuccBst_(root);
     }
 
     /******************************************************************************************** */
@@ -23,16 +22,15 @@ public class l002 {
         }
     }
 
-    static int idx = 0;
-    public static Node construct(int[] arr){
-        if(idx == arr.length || arr[idx]==-1){
-            idx++;
+    public static Node construct(int[] arr, int si, int ei){
+        if(si>ei){
             return null;
         }
 
-        Node node = new Node(arr[idx++]);
-        node.left = construct(arr);
-        node.right = construct(arr);
+        int mid = ((si+ei)>>>1); //divide by 2
+        Node node = new Node(arr[mid]);
+        node.left = construct(arr, si, mid-1);
+        node.right = construct(arr, mid+1, ei);
 
         return node;
     }
@@ -54,67 +52,56 @@ public class l002 {
         if(node.right!=null){ display(node.right); }
     }
 
-    /********************************************************************************************/
-
-    public static void allSolutions(Node root){
-        apair p = new apair();
-        int data = 10;
-        allSolutions2(root, data, p, 0);
-        System.out.println("size is "+ p.size);
-        System.out.println("height is "+ p.height);
-        System.out.println("find is "+ p.find);
-        System.out.println("pred is "+p.pred.data);
-        System.out.println("succ is "+p.succ.data);
-        System.out.println("ceil is "+p.ceil);
-        System.out.println("floor is "+p.floor);
-        
-    }
-
-    public static class apair{
-        Node prev= null, pred, succ;
-        int size = 0;
-        int height = 0;
-        boolean find = false;
-        int ceil = (int)1e8 ;
-        int floor = -(int)1e8 ;
-    }
-
-    public static void allSolutions2(Node node, int data, apair p, int level){
-        if(node == null){ return; }
-
-        allSolutions2(node.left, data, p, level+1);
-
-        //inorder 
-        //p.pred == null, not important check.
-        if(p.pred==null && node.data == data){
-            p.pred = p.prev;
-        }
-        //this check is very important because in starting prev is null.
-        if(p.prev!=null && p.prev.data == data){
-            p.succ = node;
-        }
-        p.prev = node;
-
-        p.size++;
-        if(level>p.height){
-            p.height = level;
-        }
-        if(node.data == data || p.find){
-            p.find = true;
-        }
-        if(node.data<p.ceil && node.data>data){
-            p.ceil = node.data;
-        }
-        if(node.data>p.floor && node.data<data){
-            p.floor = node.data;
-        }
-
-        allSolutions2(node.right, data, p, level+1);
-    }
-
-
     /************************************************************************************************ */
+
+    public static class bstPair{
+        Node pred, succ = null;
+    }
+
+    public static void predSuccBst_(Node node){
+        int data = 42;
+        bstPair p = new bstPair();
+        predSuccBst(node, data, p);
+        System.out.println("pred is "+ p.pred.data);
+        System.out.println("succ is "+ p.succ.data);
+    }
     
+    public static void predSuccBst(Node node, int data, bstPair p){
+        // if(node == null){
+        //     return;
+        // }
+        Node curr = node;
+        while(curr!=null){ //traverses O(log n )
+            if(curr.data<data){
+
+                p.pred = curr;
+                predSuccBst(curr.right, data, p);
+    
+            } else if(curr.data>data){
+    
+                p.succ = curr;
+                predSuccBst(curr.left, data, p);
+    
+            } else{
+    
+                Node temp = curr;
+                while(temp.left!=null){
+                    p.pred = temp.left;
+                    temp = temp.left;
+                }
+    
+                temp = curr;
+                while(temp.right!=null){
+                    p.succ = temp.right;
+                    temp = temp.right;
+                }
+            }
+        }
+       
+    }
+
+
+    /********************************************************************************** */
 //     public static void predSuccBst(Node node, int data){
        
 //         Node curr = node;

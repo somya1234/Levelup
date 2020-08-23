@@ -17,8 +17,8 @@ public class l001 {
         int mid = (si+ei)>>1; //divide by 2 . (normally triple right shift, here data not too long.)
         Node node = new Node(arr.get(mid));
 
-        node.left = constructBST(arr, si, ei-1);
-        node.right = constructBST(arr, si+1, ei);
+        node.left = constructBST(arr, si, mid-1);
+        node.right = constructBST(arr, mid+1, ei);
         return node;
     }
 

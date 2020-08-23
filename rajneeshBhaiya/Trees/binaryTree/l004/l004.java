@@ -5,7 +5,9 @@ import java.util.*;
 
 public class l004 {
     public static void main(String[] args) {
-        int[] arr = {10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,-1,-1,70,110,-1,-1,120,-1,-1};
+        // int[] arr = {10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,-1,-1,70,110,-1,-1,120,-1,-1};
+        //for allSolutions use below arr
+        int[] arr = {1,2,4,8,-1,-1,9,-1,-1,5,10,-1,-1,11,-1,-1,3,6,-1,13,-1,-1,7,14,-1,-1,-1};
         Node root = constructTree(arr);
         solve(root);
     }
@@ -49,7 +51,9 @@ public class l004 {
         // bottomView_RightPrefer(root);
         // bottomView_LeftPrefer(root);
         // topView(root);
-        topViewLevelWise(root);
+        // topViewLevelWise(root);
+        allSolutions(root);
+
     }
 
     /******************************************************************************************* */
@@ -385,43 +389,102 @@ public static class vPair{
 
 
     //7. boundary Traversal 
-    public static void boundaryTraversal(Node node){
-        int[] minMax = new int[2];
-        width(node, 0, minMax);
-        Node[] ans = new Node[minMax[1]-minMax[0]+1];
-        LinkedList<bpair> que = new LinkedList<>();
-        que.addLast(new bpair(node,Math.abs(minMax[0]),1));
+    // public static void boundaryTraversal(Node node){
+    //     int[] minMax = new int[2];
+    //     width(node, 0, minMax);
+    //     Node[] ans = new Node[minMax[1]-minMax[0]+1];
+    //     LinkedList<bpair> que = new LinkedList<>();
+    //     que.addLast(new bpair(node,Math.abs(minMax[0]),1));
 
-        while(que.size()!=0){
-            int size = que.size();
-            int maxHeight = 0;
-            while(size-->0){
-                bpair top = que.removeFirst();
-                Node vnode = top.vnode;
-                int level = top.level;
-                int height = top.height;
-                if(ans[level]==null){
-                    ans[level] = vnode;
-                    maxHeight = height;
-                } else if(height>maxHeight){
-                    ans[level].add(node);
-                    maxHeight = height;
-                }
-                if(vnode.left!=null) { que.addLast(new bpair(vnode.left, level-1, height+1)); }
-                if(vnode.right!=null){ que.addLast(new bpair(vnode.right, level+1, height+1)); }
-            }
-        }
-        int idx = Math.abs(minMax[0]);
-        if(ans[idx] != null){
-            System.out.println(ans[idx].data);
-        }
-        int left = idx-1;
-        int right = idx+1;
-        while(left>=0 || right<ans.length){
-            if(left>=0 && ans[left]!=null) { System.out.print(ans[left].data+" "); }
-            if(right<ans.length && ans[right]!=null) { System.out.println(ans[right].data); }
-            left--; right++;
-        }
+    //     while(que.size()!=0){
+    //         int size = que.size();
+    //         int maxHeight = 0;
+    //         while(size-->0){
+    //             bpair top = que.removeFirst();
+    //             Node vnode = top.vnode;
+    //             int level = top.level;
+    //             int height = top.height;
+    //             if(ans[level]==null){
+    //                 ans[level] = vnode;
+    //                 maxHeight = height;
+    //             } else if(height>maxHeight){
+    //                 ans[level].add(node);
+    //                 maxHeight = height;
+    //             }
+    //             if(vnode.left!=null) { que.addLast(new bpair(vnode.left, level-1, height+1)); }
+    //             if(vnode.right!=null){ que.addLast(new bpair(vnode.right, level+1, height+1)); }
+    //         }
+    //     }
+    //     int idx = Math.abs(minMax[0]);
+    //     if(ans[idx] != null){
+    //         System.out.println(ans[idx].data);
+    //     }
+    //     int left = idx-1;
+    //     int right = idx+1;
+    //     while(left>=0 || right<ans.length){
+    //         if(left>=0 && ans[left]!=null) { System.out.print(ans[left].data+" "); }
+    //         if(right<ans.length && ans[right]!=null) { System.out.println(ans[right].data); }
+    //         left--; right++;
+    //     }
+    // }
+
+    /********************************************************************************************/
+
+    public static void allSolutions(Node root){
+        apair p = new apair();
+        int data = 10;
+        allSolutions2(root, data, p, 0);
+        System.out.println("size is "+ p.size);
+        System.out.println("height is "+ p.height);
+        System.out.println("find is "+ p.find);
+        System.out.println("pred is "+p.pred.data);
+        System.out.println("succ is "+p.succ.data);
+        System.out.println("ceil is "+p.ceil);
+        System.out.println("floor is "+p.floor);
+        
     }
+
+    public static class apair{
+        Node prev= null, pred, succ;
+        int size = 0;
+        int height = 0;
+        boolean find = false;
+        int ceil = (int)1e8 ;
+        int floor = -(int)1e8 ;
+    }
+
+    public static void allSolutions2(Node node, int data, apair p, int level){
+        if(node == null){ return; }
+
+        allSolutions2(node.left, data, p, level+1);
+
+        //inorder 
+        //p.pred == null, not important check.
+        if(p.pred==null && node.data == data){
+            p.pred = p.prev;
+        }
+        //this check is very important because in starting prev is null.
+        if(p.prev!=null && p.prev.data == data){
+            p.succ = node;
+        }
+        p.prev = node;
+
+        p.size++;
+        if(level>p.height){
+            p.height = level;
+        }
+        if(node.data == data || p.find){
+            p.find = true;
+        }
+        if(node.data<p.ceil && node.data>data){
+            p.ceil = node.data;
+        }
+        if(node.data>p.floor && node.data<data){
+            p.floor = node.data;
+        }
+
+        allSolutions2(node.right, data, p, level+1);
+    }
+
 
 }
