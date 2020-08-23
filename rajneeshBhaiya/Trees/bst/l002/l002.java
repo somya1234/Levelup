@@ -70,7 +70,8 @@ public class l002 {
         // if(node == null){
         //     return;
         // }
-        Node curr = node;
+        //prev and succ can be declared here also.
+        Node curr = node; //iterative method 
         while(curr!=null){ //traverses O(log n )
             if(curr.data<data){
 
@@ -84,17 +85,20 @@ public class l002 {
     
             } else{
     
-                Node temp = curr;
-                while(temp.left!=null){
-                    p.pred = temp.left;
-                    temp = temp.left;
+                if(curr.left!=null){
+                    p.pred = curr.left;
+                    while(p.pred.right!=null){
+                        p.pred = p.pred.right;
+                    }
                 }
     
-                temp = curr;
-                while(temp.right!=null){
-                    p.succ = temp.right;
-                    temp = temp.right;
+                if(curr.right!=null){
+                    p.succ = curr.right;
+                    while(p.succ.left!=null){
+                        p.succ = p.succ.left;
+                    }
                 }
+                break; //no need to go further now.
             }
         }
        
