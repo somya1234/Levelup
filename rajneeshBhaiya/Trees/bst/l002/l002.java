@@ -59,7 +59,7 @@ public class l002 {
     }
 
     public static void predSuccBst_(Node node){
-        int data = 42;
+        int data = 41;
         bstPair p = new bstPair();
         predSuccBst(node, data, p);
         System.out.println("pred is "+ p.pred.data);
@@ -76,12 +76,14 @@ public class l002 {
             if(curr.data<data){
 
                 p.pred = curr;
-                predSuccBst(curr.right, data, p);
+                // predSuccBst(curr.right, data, p);
+                curr = curr.right;
     
             } else if(curr.data>data){
     
                 p.succ = curr;
-                predSuccBst(curr.left, data, p);
+                // predSuccBst(curr.left, data, p);
+                curr = curr.left;
     
             } else{
     
@@ -103,43 +105,7 @@ public class l002 {
         }
        
     }
-
-
-    /********************************************************************************** */
-//     public static void predSuccBst(Node node, int data){
-       
-//         Node curr = node;
-//         Node pred = null,succ = null;
-
-//         while(curr!=null){
-//             if(curr.data == data){
-
-//                 if(curr.left!=null){
-//                     pred = curr.left;
-//                     while(pred.right!=null){
-//                         pred = pred.right;
-//                     }
-//                 }
-
-//                 if(curr.right!=null){
-//                     succ = curr.right;
-//                     while(succ.left!=null){
-//                         succ = succ.left;
-//                     }
-//                 }
-//                 break;
-
-//             }else if(curr.data < data){
-                
-//                 pred = curr;
-//                 curr = curr.right;
-
-//             } else{
-//                 succ = curr;
-//                 curr = curr.left;
-//             }
-//         }
-//     }    
+     
 //     /****************************************************************************************************************** */
 //     public static Node addNode(Node node, int data){
 //         if(node == null){

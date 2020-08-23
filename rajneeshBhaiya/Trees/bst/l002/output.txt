@@ -12,5 +12,5 @@
 65 <- 70 -> 74
 . <- 65 -> .
 . <- 74 -> .
-pred is 41
-succ is 46
+pred is 25
+succ is 42
