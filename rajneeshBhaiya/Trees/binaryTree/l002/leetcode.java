@@ -9,25 +9,14 @@ public class leetcode{
     /*********************************************************************************** */
     //leetcode - 112 Path Sum 
     public boolean hasPathSum(TreeNode root, int sum) {
-        return hasPath(root,sum,0);
-    }
-    public boolean hasPath(TreeNode root, int sum, int val){
-       
         if(root == null){
             return false;
         }
-        val = val+root.val;
-        //necessary to check for leaf node.
-         if(sum == val && root.left==null && root.right == null){
+        if(sum-root.val == 0 && root.left == null && root.right == null){
             return true;
         }
-        if(hasPath(root.left, sum,val)){
-            return true;
-        }
-        if(hasPath(root.right, sum, val)){
-            return true;
-        }
-        return false;
+        
+        return hasPathSum(root.left, sum-root.val) || hasPathSum(root.right, sum-root.val); 
     }
     /*********************************************************************************** */
     // Leetcode 113 -> Path Sum II
@@ -56,8 +45,97 @@ public class leetcode{
     /*********************************************************************************************** */
     //gfg -> https://www.geeksforgeeks.org/find-maximum-path-sum-two-leaves-binary-tree/
 
+    class dpair{
+        int msum = 0;
+        int mpath = 0;
+        dpair(int msum, int mpath){
+            this.msum = msum;
+            this.mpath = mpath;
+        }
+    }
+    int maxPathSum(Node root)
+    { 
+        // code here 
+        dpair ans = fn(root);
+        return ans.mpath;        
+    } 
+    
+    dpair fn(Node node){
+        if(node == null){ //return -inf. only when 1 of child is null.
+            return new dpair(-(int)1e8,-(int)1e8);
+        }
+        if(node.left==null && node.right == null){
+            // a single node cannot have max path (as it is only between 2 leave nodes.)
+            return new dpair(node.data,-(int)1e8);
+        }
+        dpair left = fn(node.left);
+        dpair right = fn(node.right);
+        int msum = Math.max(left.msum, right.msum)+node.data;
+        int mpath = Math.max(left.mpath, Math.max(right.mpath, left.msum+right.msum+node.data));
+        return new dpair(msum, mpath);
+    }
+
+    //approach 2 -> using static method
+    //return maxpath from one of the leaves
+    //and mpath is the max sum path between any 2 leaves.
+    static int mpath = -(int)1e8;
+    public static int maxPathSum(Node node){
+        if(node == null){
+            //as values can also be negative here.
+            return -(int)1e8;
+        }
+        if(node.left == null && node.right == null){
+            // do not update max path sum here.
+            return node.data;
+        }
+
+        int lsum = maxPathSum(node.left);
+        int rsum = maxPathSum(node.right);
+        mapth = Math.max(mpath, lsum+rsum+node.data);
+        return Math.max(lsum,rsum)+node.data;
+    }
 
     /*********************************************************************************************** */
-    //leetcode 124 Binary Tree Maximum Path Sum 
+    //leetcode 124 Binary Tree Maximum Path Sum -> Google question 
+
+    public int maxPathSum(TreeNode root) {
+        pair ans = maxPathSum_(root);
+        return ans.mpath;
+    }
+    public class pair{
+        int msum = 0;
+        int mpath = 0;
+        pair(int msum, int mpath){
+            this.msum = msum;
+            this.mpath = mpath;
+        }
+    }
+    
+    public pair maxPathSum_(TreeNode node){
+        if(node == null){
+            return new pair(-(int)1e8, -(int)1e8);
+            // return new pair(0,0);
+        }
+        
+        if(node.left == null && node.right == null){
+            return new pair(node.val, node.val);
+        }
+        
+        pair left = maxPathSum_(node.left);
+        pair right = maxPathSum_(node.right);
+        
+        int msum = Math.max(Math.max(left.msum, right.msum)+node.val, node.val);
+        if(left.msum==-(int)1e8){
+            left.msum = 0;
+        }
+        if(right.msum==-(int)1e8){
+            right.msum = 0;
+        }
+        int mpath =Math.max(msum ,Math.max(node.val,Math.max(left.mpath, Math.max(right.mpath, left.msum+right.msum+node.val))));
+        
+        return new pair(msum, mpath);
+    }
+
+    /****************************************************************************************** */
     
 }
