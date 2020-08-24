@@ -59,7 +59,8 @@ public class l001{
         Node root = construct(arr);
         // display(root);
         // iterativeTraversal1(root);
-        System.out.println(height(root));
+        // System.out.println(height(root));
+        morrisInTraversal(root);
     }
 
     /**************************************************************************************** */
@@ -178,7 +179,7 @@ public class l001{
             } else {
                 Node rightMost = rightMost(next,curr);
                 if(rightMost.right== null){
-                    rightMost.right = curr;
+                    rightMost.right = curr; // set thread 
                     curr = curr.left;
                 } else {
                     System.out.print(curr.data+" ");
