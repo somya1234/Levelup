@@ -18,7 +18,7 @@ public class leetcode {
         int rightDefeGain = distributeCoins_(root.right);
 
         totalCoins += Math.abs(leftDefeGain) + Math.abs(rightDefeGain);
-
+        //or you can add what you are returning into totalCoins , because that is what you are moving.
         return root.val - 1 + leftDefeGain + rightDefeGain;
     }
 

@@ -5,12 +5,13 @@ public class l001 {
     }
 
     public static void solve(){
-        int[] arr = {10,20,30,-1,-1,40,-1,-1,50,60,70,-1,80,-1,-1,-1,90,100,-1,120,-1,-1,110,-1,-1};
+        // int[] arr = {10,20,30,-1,-1,40,-1,-1,50,60,70,-1,80,-1,-1,-1,90,100,-1,120,-1,-1,110,-1,-1};
+        int[] arr = {1,2,3,4,-1,-1,-1,5-1,6,-1,-1,7,8,-1,-1,9,-1,-1};
         Node root = constructTree(arr);
         // Node root = construct2(arr);
-        // display(root);
+        display(root);
 
-        System.out.println(size(root));
+        // System.out.println(size(root));
     }
 
     public  static class Node{
@@ -104,11 +105,11 @@ public class l001 {
         return size;
     }
 
-    public static int height(Node node){
-        //in terms of edges -> return -1
-        //in terms of vertices -> return 0;
+    // public static int height(Node node){
+    //     //in terms of edges -> return -1
+    //     //in terms of vertices -> return 0;
         
-    }
+    // }
     
 
     /********************************************************************************************* */
