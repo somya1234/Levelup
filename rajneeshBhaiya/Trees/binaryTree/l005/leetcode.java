@@ -1,4 +1,4 @@
-import javax.swing.tree.TreeNode;
+import java.util.*;
 
 public class leetcode {
     public static void main(String[] args) {
@@ -9,7 +9,7 @@ public class leetcode {
 
     }
 /*************************************************************************************************/
-    //Leetcode 979 
+    //Leetcode 979 -> Distribute Coins in BT
     int totalCoins = 0;
     public int distributeCoins_(TreeNode root){
         if(root==null){  return 0; }
@@ -28,10 +28,11 @@ public class leetcode {
     }
 
 /************************************************************************************************ */
-    //Que 968 
+    //Que 968 -> Binary Tree Camera 
     int cameras = 0;
+    //this fn returns the state of the nodes for cameras
     int minCamerasCover_(TreeNode root){
-        if(root == null){ return 1; }
+        if(root == null){ return 1; } // I am protected
 
         int lans = minCamerasCover_(root.left);
         int rans = minCamerasCover_(root.right);
@@ -43,12 +44,12 @@ public class leetcode {
         }
 
         if(lans ==0 || rans == 0){
-            //if anyone has camera, then i am Covered
+            //if any of my child has camera, then i am Covered
             return 1;
         }
 
         // else
-        //no child has camera, then i require camera now 
+        //no child has camera, then I require camera now 
         return -1;
     }
 
