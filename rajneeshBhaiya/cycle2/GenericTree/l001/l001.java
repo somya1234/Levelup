@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class l001 {
@@ -34,11 +35,13 @@ public class l001 {
     public static void solve(){
         int[] arr = {10,20,50,-1,60,-1,-1,30,70,-1,80,120,-1,130,-1,-1,90,-1,-1,40,100,-1,110,-1,-1,-1};
         Node root = constructGT(arr);
-        display(root);
+        // display(root);
         // System.out.println(height(root));
         // System.out.println(size(root));
         // System.out.println(max(root));
         // System.out.println(find(root, 80));
+        // zigZag(root);
+        System.out.println(isMirror(root,root));
     }
 
     /********************************************************************************************/
@@ -94,7 +97,54 @@ public class l001 {
     }
     /********************************************************************************************/
 
+    public static void zigZag(Node node){
+        int level = 0;
+        LinkedList<Node> ms = new LinkedList<>();
+        LinkedList<Node> hs = new LinkedList<>();
+        ms.add(node);
+        while(ms.size()>0){
+            Node top = ms.removeLast();
+            System.out.print(top.data +" ");
+            //to check modulo, we check if it even number or odd
+            if((level&1)==0){ 
+                //even number
+                for(Node child:top.children){
+                    hs.add(child);
+                }
+            } else {
+                for(int i=top.children.size()-1;i>=0;i--){
+                    Node child = top.children.get(i);
+                    hs.add(child);
+                    // System.out.println("child is "+child.data);
+                }
+            }
+            if(ms.size()==0){
+                level++;
+                System.out.println();
+                ms = hs;
+                hs = new LinkedList<>();
+            }
+            
+        }
+    }
 
+    public static boolean isMirror(Node node1, Node node2){
+        //prearea 
+
+        if(node1.data!=node2.data){
+            return false;
+        }
+        if(node1.children.size()!=node2.children.size()){
+            return false;
+        }
+        for(int i=0;i<Math.ceil(node1.children.size()/2);i++){
+            Node child1 = node1.children.get(i);
+            Node child2 = node2.children.get(node2.children.size()-1-i);
+            boolean ans = isMirror(child1, child2);
+            if(!ans) { return false; }
+        }
+        return true;
+    }
 
     /******************************************************************************************** */
 }
