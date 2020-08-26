@@ -1,5 +1,4 @@
-// class private, so that nobody alters it.
-public class linkedlist {
+public class Linkedlist {
     private class Node {
         int data = 0;
         Node next = null;
@@ -21,6 +20,11 @@ public class linkedlist {
     public boolean isEmpty(){
         return this.size()==0;
     }
+
+    // @Override
+    // public static toString(){
+
+    // }
 
     // Get. ============================================================
 
@@ -156,7 +160,7 @@ public class linkedlist {
             this.head = this.tail = null;
         } else {
             rnode = this.tail;
-            Node secondLastNode = getAt(this.size-2);
+            Node secondLastNode = getNodeAt(this.size-2);
             secondLastNode.next = null;
             this.tail = secondLastNode;
         }
@@ -166,7 +170,7 @@ public class linkedlist {
 
     //===== removeAt
 
-    public int removeAt(int idx){
+    public int removeAt(int idx) throws Exception{
         if(idx<0 || idx>=this.size){
             throw new Exception("NULLPointer");
         }
