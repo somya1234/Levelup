@@ -1,33 +1,36 @@
 import java.util.*;
-public class l001{
+
+public class l001 {
     public static void main(String[] args) {
         solve();
     }
 
     /***************************************************************************************** */
     // public static class Node{
-    //     int data = 0;
-    //     Node left;
-    //     Node right = null;
-    //     Node(int data){
-    //         this.data = data;
-    //     }
+    // int data = 0;
+    // Node left;
+    // Node right = null;
+    // Node(int data){
+    // this.data = data;
+    // }
     // }
 
-    //to calculate diameter 
-    public static class Node{
+    // to calculate diameter
+    public static class Node {
         int data = 0;
         Node left;
         Node right = null;
         int h = -1;
-        Node(int data){
+
+        Node(int data) {
             this.data = data;
         }
     }
 
     static int constructIdx = 0;
-    public static Node construct(int[] arr){
-        if(constructIdx==arr.length || arr[constructIdx]==-1){
+
+    public static Node construct(int[] arr) {
+        if (constructIdx == arr.length || arr[constructIdx] == -1) {
             constructIdx++;
             return null;
         }
@@ -38,13 +41,14 @@ public class l001{
         return node;
     }
 
-    public static void display(Node node){
-        if(node==null) return;
+    public static void display(Node node) {
+        if (node == null)
+            return;
         StringBuilder sb = new StringBuilder();
-        
-        sb.append(node.left!=null?node.left.data+"" : ".");
+
+        sb.append(node.left != null ? node.left.data + "" : ".");
         sb.append(" <- " + node.data + " -> ");
-        sb.append(node.right!=null?node.right.data+"" : ".");
+        sb.append(node.right != null ? node.right.data + "" : ".");
 
         System.out.println(sb.toString());
 
@@ -54,24 +58,25 @@ public class l001{
 
     /******************************************************************************************/
 
-    public static void solve(){
-        int[] arr = {1,2,3,4,-1,-1,-1,5,-1,6,-1,-1,7,8,-1,-1,9,-1,-1};
+    public static void solve() {
+        int[] arr = { 1, 2, 3, 4, -1, -1, -1, 5, -1, 6, -1, -1, 7, 8, -1, -1, 9, -1, -1 };
         Node root = construct(arr);
         // display(root);
         // iterativeTraversal1(root);
         // System.out.println(height(root));
-        morrisInTraversal(root);
+        // morrisInTraversal(root);
+        // attachLeaves(root); -> can't print it (TLE)
     }
 
     /**************************************************************************************** */
-    //Question1 -> Iteratively postorder traversal 
-    public static class tPair{
+    // Question1 -> Iteratively postorder traversal
+    public static class tPair {
         Node node = null;
         boolean selfDone = false;
         boolean leftDone = false;
         boolean rightDone = false;
 
-        tPair(Node node, boolean selfDone, boolean leftDone, boolean rightDone){
+        tPair(Node node, boolean selfDone, boolean leftDone, boolean rightDone) {
             this.node = node;
             this.selfDone = selfDone;
             this.leftDone = leftDone;
@@ -79,41 +84,43 @@ public class l001{
         }
     }
 
-    //postorder traversal ,
-    //similarly can be done in preorder and inorder
-    public static void iterativeTraversal1(Node node){
+    // postorder traversal ,
+    // similarly can be done in preorder and inorder
+    public static void iterativeTraversal1(Node node) {
         Stack<tPair> st = new Stack<>();
         st.push(new tPair(node, false, false, false));
-        while(st.size()>0){
+        while (st.size() > 0) {
             tPair top = st.peek();
 
-            if(top.leftDone==false){
+            if (top.leftDone == false) {
                 top.leftDone = true;
-                if(top.node.left!=null){
-                    st.push(new tPair(top.node.left,false,false,false));
+                if (top.node.left != null) {
+                    st.push(new tPair(top.node.left, false, false, false));
                 }
-            } else if(top.rightDone == false){
+            } else if (top.rightDone == false) {
                 top.rightDone = true;
-                if(top.node.right!=null)
+                if (top.node.right != null)
                     st.push(new tPair(top.node.right, false, false, false));
-            } else if(top.selfDone == false){
+            } else if (top.selfDone == false) {
                 top.selfDone = true;
-                System.out.print(top.node.data +" ");
+                System.out.print(top.node.data + " ");
             } else {
                 st.pop();
             }
         }
     }
+
     /***************************************************************************************** */
 
-    //Question 2-> Find diameter using postorder traversal 
+    // Question 2-> Find diameter using postorder traversal
 
-    public static class hPair{
+    public static class hPair {
         Node node = null;
         boolean leftDone = false;
         boolean rightDone = false;
         boolean selfWork = false;
-        hPair(Node node, boolean leftDone, boolean rightDone, boolean selfWork){
+
+        hPair(Node node, boolean leftDone, boolean rightDone, boolean selfWork) {
             this.node = node;
             this.leftDone = leftDone;
             this.rightDone = rightDone;
@@ -121,37 +128,37 @@ public class l001{
         }
     }
 
-    public static int height(Node node){
+    public static int height(Node node) {
         Stack<hPair> st = new Stack<>();
-        hPair rootPair = new hPair(node,false,false,false);
+        hPair rootPair = new hPair(node, false, false, false);
         st.push(rootPair);
-        while(st.size()>0){
+        while (st.size() > 0) {
             hPair top = st.peek();
 
-            if(top.leftDone==false){
+            if (top.leftDone == false) {
                 top.leftDone = true;
-                if(top.node.left!=null){
-                    st.push(new hPair(node,false,false,false));
+                if (top.node.left != null) {
+                    st.push(new hPair(node, false, false, false));
                 }
-            } else if(top.rightDone == false){
+            } else if (top.rightDone == false) {
                 top.rightDone = true;
-                if(top.node.right!=null){
-                    st.push(new hPair(node,false,false,false));
+                if (top.node.right != null) {
+                    st.push(new hPair(node, false, false, false));
                 }
-            } else if(top.selfWork == false){
+            } else if (top.selfWork == false) {
                 top.selfWork = true;
                 int h = -1;
-                if(top.node.left==null && top.node.right==null){
+                if (top.node.left == null && top.node.right == null) {
                     h = 0;
-                } else if(top.node.left==null){
-                    h = top.node.right.h+1;
-                } else if(top.node.right==null){
-                    h = top.node.left.h+1;
+                } else if (top.node.left == null) {
+                    h = top.node.right.h + 1;
+                } else if (top.node.right == null) {
+                    h = top.node.left.h + 1;
                 } else {
-                    h = Math.max(top.node.left.h, top.node.right.h)+1;
+                    h = Math.max(top.node.left.h, top.node.right.h) + 1;
                 }
                 top.node.h = h;
-            } else{
+            } else {
                 st.pop();
             }
         }
@@ -160,29 +167,29 @@ public class l001{
     }
 
     /******************************************************************************************* */
-    // Morris Traversal 
+    // Morris Traversal
 
-    public static Node rightMost(Node node, Node curr){
-        while(node.right!=null && node.right!=curr){
+    public static Node rightMost(Node node, Node curr) {
+        while (node.right != null && node.right != curr) {
             node = node.right;
         }
         return node;
     }
 
-    public static void morrisInTraversal(Node node){
+    public static void morrisInTraversal(Node node) {
         Node curr = node;
-        while(curr!=null){
+        while (curr != null) {
             Node next = curr.left;
-            if(next == null){
-                System.out.print(curr.data +" ");
+            if (next == null) {
+                System.out.print(curr.data + " ");
                 curr = curr.right;
             } else {
-                Node rightMost = rightMost(next,curr);
-                if(rightMost.right== null){
-                    rightMost.right = curr; // set thread 
+                Node rightMost = rightMost(next, curr);
+                if (rightMost.right == null) {
+                    rightMost.right = curr; // set thread
                     curr = curr.left;
                 } else {
-                    System.out.print(curr.data+" ");
+                    System.out.print(curr.data + " ");
                     rightMost.right = null;
                     curr = curr.right;
                 }
@@ -190,6 +197,31 @@ public class l001{
         }
     }
 
-
     /******************************************************************************************* */
+
+    static Node prev = null;
+
+    public static void attachLeaves(Node node) {
+        if (node == null) {
+            return;
+        }
+        if (node.left == null && node.right == null) {
+            if (prev == null) {
+                node.left = prev;
+                prev = node;
+                return;
+            } else {
+                node.left = prev;
+                prev.right = node;
+                prev = node;
+                return;
+            }
+        }
+
+        attachLeaves(node.left);
+
+        attachLeaves(node.right);
+    }
+
+    //======
 }

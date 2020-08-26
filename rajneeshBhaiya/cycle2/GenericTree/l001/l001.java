@@ -36,7 +36,7 @@ public class l001 {
         int[] arr = {10,20,50,-1,60,-1,-1,30,70,-1,80,120,-1,130,-1,-1,90,-1,-1,40,100,-1,110,-1,-1,-1};
         // int[] arr = {10,20,-1,30,-1,40,-1,-1}; // for linearize 
         Node root = constructGT(arr);
-        // display(root);
+        display(root);
         // System.out.println(height(root));
         // System.out.println(size(root));
         // System.out.println(max(root));
@@ -44,10 +44,10 @@ public class l001 {
         // zigZag(root);
         // System.out.println(isMirror(root,root));
         // linearize(root);
-        // linearize(root);
+        // linearize2(root);
         // display(root);
-        attachLeaves(root);
-        display(root);
+        // attachLeaves(); //can't print it.
+        
     }
 
     /********************************************************************************************/
@@ -224,9 +224,11 @@ public class l001 {
     //=====
     //O(n) approach 
     public static Node linearize2(Node node){
+        if(node.children.size()==0){ return node; }
 
-        //last node gets linearize gives tail
         int n = node.children.size();
+        //last node gets linearize gives tail
+        //eg tail for 30 is needed to attach in 40.
         Node oTail =  linearize2(node.children.get(node.children.size()-1)); ;//overall tail 
         for(int i=n-2;i>=0;i--){
             //start from second last node
@@ -236,50 +238,24 @@ public class l001 {
         }
         return oTail; //think like root will return its tail, which is tail of last children 
     }
-
-
+    
     //company question -> 32 lpa
-    // public static Node attachLeaves(Node node){
-    //     if(node.children.size()==0){
-    //         return node;
-    //     }
-    //     Node tail = node;
-    //     while(node.children.size()==1){
-    //         node = node.children.get(0);
-    //     }
-    //     tail = node;
-    //     for(int i=0;i<node.children.size()-1;i++){
-    //         Node tail1 = attachLeaves(node.children.get(i));
-    //         Node tail2 = attachLeaves(node.children.get(i+1));
-    //         tail1.children.add(tail2);
-    //         tail2.children.add(tail1);
-    //         tail = tail2;
-    //     }
-    //     return tail;
-    // }
-
-
-    //binary tree
     static Node prev = null;
-        public static void attachLeaves(Node node){
-            if(node == null){ return; }
-            if(node.left == null && node.right == null){
-                if(prev == null){
-                    node.left = prev;
-                    prev = node;
-                    return;
-                } else {
-                    node.left = prev;
-                    prev.right = node;
-                    prev = node;
-                    return;
-                }
+    public static void attachLeaves(Node node){
+        if(node.children.size()==0){
+            if(prev==null){prev = node;}
+            else {
+                //though the q is of Binary tree and cant print it.
+                node.children.add(prev);
+                prev.children.add(node);
+                prev = node;
             }
-
-            attachLeaves(node.left);
-
-            attachLeaves(node.right);
         }
+        for(Node child:node.children){
+            attachLeaves(child);
+        }
+       
+    }
 
     /********************************************************************************************* */
 }
