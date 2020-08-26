@@ -1,0 +1,1 @@
+1. why addnode is private and why its exceptions are public .
