@@ -8,6 +8,7 @@ public class leetcode {
     }
 
     //Leetcode 876 
+    //approach 1 
     public Node middle(){
         Node s,f = this.head;
         while(f.next!=null && f.next.next!=null){
@@ -16,7 +17,16 @@ public class leetcode {
         }
         return s;
     }
-
+    //but, in this question, we consider second mid when there are two mids
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast!=null && fast.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
 
     public listNode reverseList(ListNode head){
 
