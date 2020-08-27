@@ -21,10 +21,20 @@ public class Linkedlist {
         return this.size()==0;
     }
 
-    // @Override
-    // public static toString(){
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        Node curr = this.head;
+        sb.append("[");
 
-    // }
+        while(curr!=null){
+            sb.append(curr.data);
+            if(curr.next!=null){ sb.append(", "); }
+            curr = curr.next;
+        }
+        sb.append("]");
+          return sb.toString(); //convert string builder to string.
+    }
 
     // Get. ============================================================
 

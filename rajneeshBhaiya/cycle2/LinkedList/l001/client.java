@@ -8,3 +8,6 @@ public class client {
         System.out.println(ll);
     }
 }
+
+//execute by running this command.
+// javac client.java && java client
