@@ -2,9 +2,8 @@ public class linkedlist2 {
     private class Node{
         int data = 0;
         Node next = null;
-        Node(int data, Node next){
+        Node(int data){
             this.data = data;
-            this.next = next;
         }
     }
 
@@ -38,14 +37,21 @@ public class linkedlist2 {
     
     public int getAt(int idx) throws Exception{
         if(idx<0 || idx>=this.size){
-            throw new Exception("Invalid idx");
+            throw new Exception("NULL Pointer");
         }
         Node gnode = getNodeAt(idx);
         return gnode.data;
     }
 
     private Node getNodeAt(int idx){
-        
+        Node gnode = this.head;
+        if(idx == this.size-1){
+            return this.tail;
+        }
+        while(idx-->0){
+            gnode = gnode.next;
+        }
+        return gnode;
     }
 
     //==== add
@@ -82,6 +88,28 @@ public class linkedlist2 {
         this.size++;
     }
 
+    public void addAt(int idx, int data) throws Exception{
+        if(idx<0 || idx>this.size){
+            throw new Exception("Null Pointer");
+        }
+        Node node = new Node(data);
+        addNodeAt(idx, node);
+    }
+
+    private void addNodeAt(int idx, Node node){
+        if(idx == 0){
+            addFirstNode(node);
+        } else if(idx == this.size){
+            addLastNode(node);
+        } else {
+            Node prev = getNodeAt(idx-1);
+            Node forw = prev.next;
+            prev.next = node;
+            node.next = forw;
+            this.size++;
+        }
+    }
+
     
     //=================
 
@@ -93,7 +121,7 @@ public class linkedlist2 {
         return rnode.data;
     }
 
-    private Node removeFirsNode(){
+    private Node removeFirstNode(){
         Node rnode = this.head;
         if(this.head == this.tail){
             this.head = null;
@@ -102,9 +130,10 @@ public class linkedlist2 {
             this.head = this.head.next;
         }
         this.size--;
+        return rnode;
     }
 
-    public int removeLast(){
+    public int removeLast() throws Exception{
         if(this.size==0){
             throw new Exception("Empty LL");
         }
@@ -112,19 +141,45 @@ public class linkedlist2 {
         return rnode.data;
     }
 
-    private Node removeLastNode(){
-        Node rnode = this.head;
+    private Node removeLastNode(){ // O(n)
+        Node rnode = this.tail;
         if(this.head == this.tail){
             this.head = this.tail = null;          
         } else {
-            int size = this.size-1;
-            while(size-->0){
-                rnode = rnode.next;
-            }
+            Node prev = getNodeAt(this.size-2); // n 
+            prev.next = null;
+            this.tail = prev;
         }
+        this.size--;
         return rnode;
     }
 
     
+    public int removeAt(int idx) throws Exception{
+        if(idx<0 || idx>=this.size){
+            throw new Exception("NULL Pointer");
+        }
+        Node rnode = removeNodeAt(idx);
+        return rnode.data;
+    }
 
+    private Node removeNodeAt(int idx){
+        Node rnode = this.head;
+        if(idx == 0){
+            rnode = removeFirsNode();
+        } else if(idx == this.size-1){
+            //though, this case can be covered in removeAt, but here it sets tail also.
+            rnode = removeLastNode();
+        } else {
+            Node prev = getNodeAt(idx-1);
+            Node forw = prev.next.next;
+            rnode = prev.next;
+            prev.next = forw;
+            rnode.next = null;
+            this.size--;
+        }
+        return rnode;
+    }
+
+/********************************************************************************************** */
 }
