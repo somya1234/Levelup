@@ -151,13 +151,13 @@ public class leetcode {
     /******************************************************************************************* */
 
     // Leetcode 234.
-    // isPalindorme -> O(n) time complexity
+    // isPalindorme -> O(n) time complexity -> (2n exact )
     // O(1) space
     public boolean isPalindrome(ListNode head) {
         if (head == null || head.next == null) {
             return true;
         }
-        ListNode mid = mid(head); // n
+        ListNode mid = mid(head); // n/2
         ListNode left = head;
         ListNode right = mid.next;
         mid.next = null;
@@ -167,7 +167,7 @@ public class leetcode {
 
         boolean res = true;
         // after considering odd and even cases.
-        while (right != null) { // n
+        while (right != null) { // n/2
             if (left.val != right.val) {
                 res = false;
                 break;
@@ -210,6 +210,8 @@ public class leetcode {
 
     // Leetcode 21 -> merge two sorted lists to make a sorted list (v.imp)
     // no extra space is taken 
+    // time complexity - O(n)
+    //space -> O(1)
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         ListNode dummy = new ListNode(-10);
         ListNode temp = dummy;

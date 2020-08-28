@@ -14,11 +14,11 @@ public class Linkedlist {
     private int size = 0;
 
     public int size() {
-        return this.size();
+        return this.size;
     }
 
     public boolean isEmpty(){
-        return this.size()==0;
+        return this.size==0;
     }
 
     @Override
