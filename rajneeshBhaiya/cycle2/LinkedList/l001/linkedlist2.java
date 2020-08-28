@@ -35,7 +35,18 @@ public class linkedlist2 {
         }
         return this.tail.data;
     }
+    
+    public int getAt(int idx) throws Exception{
+        if(idx<0 || idx>=this.size){
+            throw new Exception("Invalid idx");
+        }
+        Node gnode = getNodeAt(idx);
+        return gnode.data;
+    }
 
+    private Node getNodeAt(int idx){
+        
+    }
 
     //==== add
     public void addFirst(int data){
