@@ -26,4 +26,46 @@ public class leetcode{
         return false;
     }
     /********************************************************************************** */
+
+    //leetcode 160 
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        
+        ListNode temp1 =headA;
+        ListNode temp2 = headB;
+        int size1 = 0;
+        int size2 = 0;
+        while(temp1!=null){
+            temp1 = temp1.next;
+            size1++;
+        }
+        while(temp2!=null){
+            temp2 = temp2.next;
+            size2++;
+        }
+        ListNode curr1 =headA;
+        ListNode curr2 = headB;
+        while(size1!=size2){
+            if(size1>size2){
+                size1--;
+                curr1 = curr1.next;
+            } else {
+                size2--;
+                curr2 = curr2.next;
+            }
+        }
+        while(curr1!=null && curr2!=null){
+            if(curr1 == curr2){
+                return curr1;
+            } else {
+                curr1 = curr1.next;
+                curr2 = curr2.next;
+            }
+        }
+        return null;
+    }
+
+    /**************************************************************************************** */
+
+
 }

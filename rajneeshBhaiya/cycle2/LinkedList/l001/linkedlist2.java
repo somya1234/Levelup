@@ -166,7 +166,7 @@ public class linkedlist2 {
     private Node removeNodeAt(int idx){
         Node rnode = this.head;
         if(idx == 0){
-            rnode = removeFirsNode();
+            rnode = removeFirstNode();
         } else if(idx == this.size-1){
             //though, this case can be covered in removeAt, but here it sets tail also.
             rnode = removeLastNode();
