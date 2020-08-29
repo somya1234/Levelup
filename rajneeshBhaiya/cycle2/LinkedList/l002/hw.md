@@ -1,8 +1,8 @@
 https://www.geeksforgeeks.org/segregate-even-and-odd-elements-in-a-linked-list/  
-2. leetcode 328 -
-
-3. q 61
-4. q 143 
-5. q 19 
+2. leetcode 328 - done. (v.imp)
+3. q 61- done (v.imp)
+4. q 143 - done (v.imp)
+5. q 19 - done. (imp)
 6. q 148 
 7. q 23 
+
