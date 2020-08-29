@@ -10,6 +10,8 @@ public class leetcode {
         reorderList();
         removeNthNodeFromEnd();
         sortList();
+        splitLLInParts();
+        mergeKSortedLists();
     }
 
 
@@ -350,4 +352,49 @@ public class leetcode {
         return arr;
     }
     /******************************************************************************************* */
+
+    // Leetcode - 23 
+    // Merge K Sorted Lists 
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists.length == 0){
+            return null;
+        }
+        return sort(lists, 0, lists.length-1);
+    }
+    
+    public ListNode sort(ListNode[] lists, int si, int ei){
+        if(si==ei){
+            return lists[si];
+        }
+        
+        int mid = (si+ei)/2;
+        ListNode left = sort(lists, si, mid);
+        ListNode right = sort(lists, mid+1, ei);
+        return sortTwoLL(left,right);
+    }
+    
+    public ListNode sortTwoLL(ListNode left, ListNode right){
+        ListNode dummy = new ListNode(-1);
+        ListNode head = dummy;
+        ListNode c1 = left;
+        ListNode c2 = right;
+        while(c1!=null && c2!=null){
+            if(c1.val<c2.val){
+                head.next = c1;
+                c1 = c1.next;
+            } else{
+                head.next = c2;
+                c2 = c2.next;
+            }
+            head = head.next;
+        }
+        if(c1!=null){
+            head.next = c1;
+        } else if(c2!=null){ // try.
+            head.next = c2;
+        }
+        return dummy.next;
+    }
+
+    /********************************************************************************************* */
 }
