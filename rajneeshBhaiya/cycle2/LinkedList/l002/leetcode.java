@@ -9,6 +9,7 @@ public class leetcode {
         rotateRight(); 
         reorderList();
         removeNthNodeFromEnd();
+        sortList();
     }
 
 
@@ -237,6 +238,116 @@ public class leetcode {
 
     /*************************************************************************** */
 
+    // leetcode 148 -> Sort List. 
+
+    public ListNode sortList(ListNode head) {
+        if(head == null || head.next==null){
+            return head;
+        }
+        ListNode ans = sort(head);
+        return ans;
+    }
     
+    public ListNode sort(ListNode temp){
+        if(temp.next==null){
+            return temp;
+        }
+        
+        ListNode mid = findMid(temp);
+        ListNode right = mid.next;
+        mid.next = null;
+        ListNode left = sort(temp); // left
+        ListNode rightll = sort(right);
+        ListNode sortedLL = mergeTwoSortedLists(left,rightll);
+        return sortedLL;
+    }
+    
+    public ListNode mergeTwoSortedLists(ListNode left, ListNode right){
+        ListNode dummy = new ListNode(-1);
+        ListNode head = dummy; 
+        ListNode c1 = left;
+        ListNode c2 = right;
+        while(c1!=null && c2!=null){
+            if(c1.val<c2.val){
+                head.next = c1;
+                c1 = c1.next;
+            } else {
+                head.next = c2;
+                c2 = c2.next;
+            }
+            head = head.next;
+        }
+        if(c1!=null){
+            head.next = c1;
+        } else if(c2!=null){
+            head.next = c2;
+        }
+        return dummy.next;
+    }
+    
+    public ListNode findMid(ListNode head){
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast.next!=null && fast.next.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
     /************************************************************************************** */
+
+    // leetcode -> 725 
+    // Split Linked List in parts -> self done (extra.)
+    public ListNode[] splitListToParts(ListNode root, int k) {
+        if(root == null){
+            // return k nulls.
+            ListNode[] ans = new ListNode[k];
+            return ans;
+        }
+        ListNode temp = root;
+        int size = 0;
+        while(temp!=null){
+            temp = temp.next;
+            size++;
+        }
+        ListNode[] arr = new ListNode[k];
+        int idx = 0;
+        if(k>size){
+            while(idx!=size){
+                arr[idx] = root;
+                ListNode next = root.next;
+                root.next = null;
+                root = next;
+                idx++;
+            }
+            while(idx!=k){
+                arr[idx] = root;
+                idx++;
+            }
+            
+        } else {
+            int div = size/k;
+            int rem = size%k;
+            ListNode c1 = root;
+            while(idx!=k){
+                arr[idx] = c1;
+                int tempDiv = div;
+                while(tempDiv>1){
+                    // this doesn't reflect changes in array as we only changed the pointer.
+                    c1 = c1.next;
+                    tempDiv--;
+                }
+                if(rem>0){
+                    c1 = c1.next;
+                    rem--;
+                }
+                ListNode c2 = c1.next;
+                c1.next = null;
+                c1 = c2;
+                idx++;
+            }
+        }
+        return arr;
+    }
+    /******************************************************************************************* */
 }
