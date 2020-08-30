@@ -4,6 +4,6 @@
 2. l002 -> sortList -> sir way of finding complexity in sort list q 
  where k = logn ?
 
- 3. l002 -> merge k soted LL -> complexity understand ?
+3. l002 -> merge k soted LL -> complexity understand ?
 
  4. l003 -> detect cycle 

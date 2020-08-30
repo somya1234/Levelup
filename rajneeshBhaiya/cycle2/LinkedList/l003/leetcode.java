@@ -94,7 +94,44 @@ public class leetcode{
     }
 
     //=== method 2 - 
+    // find cycle 
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null){
+            return null;
+        }
+        ListNode tail = headA;
+        while(tail.next!=null){
+            tail = tail.next;
+        }
+        tail.next = headB;
+        ListNode node = detectCycle(headA);
+        tail.next = null;
+        return node;
+    }
     
+    public ListNode detectCycle(ListNode head){
+        
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast!=null && fast.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast){
+                break;
+            }
+        }
+        // no cycle is present.
+        if(slow!=fast){
+            return null;
+        }
+        slow = head;
+        while(slow!=fast){
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
+    }
+
 
     /**************************************************************************************** */
 
