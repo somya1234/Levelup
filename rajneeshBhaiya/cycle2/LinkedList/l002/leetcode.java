@@ -6,6 +6,7 @@ public class leetcode {
     public static void solve(){
         mergeTwoLists();
         oddEvenList();
+        segregateOddAndEven(); // gfg 
         rotateRight(); 
         reorderList();
         removeNthNodeFromEnd();
@@ -81,6 +82,80 @@ public class leetcode {
         c1.next = ehead;
         return head;
     }
+
+    /******************************************************************************************* */
+    //gfg question 
+    // https://www.geeksforgeeks.org/segregate-even-and-odd-elements-in-a-linked-list/  
+
+    // method 1 -> maintains the even l.l in the original l.l and odd l.l using dummy node.
+    public static ListNode segregateOddAndEven(ListNode head){
+        ListNode curr = head; // even 
+        // ListNode c2 = head; // odd
+        ListNode prev = null;
+        ListNode dummy = new ListNode(-1); 
+        ListNode dummyHead = dummy;
+        while(curr!=null){
+            if(curr.val%2==0){
+                prev = curr;
+                curr = curr.next; 
+            } else {
+                if(head == curr){
+                    ListNode temp = curr.next;
+                    curr.next = null;
+                    dummyHead.next = curr;
+                    curr = temp;
+                    head = head.next;
+                } else {
+                    prev.next = curr.next;
+                    curr.next = null;
+                    dummyHead.next = curr;
+                    curr = prev.next;
+                }
+            }
+            dummyHead = dummyHead.next;
+        }
+        if(prev == null){
+            return dummy.next;
+        }
+        prev.next = dummy.next;
+        return head;
+    }
+
+
+    // more good approach -> take 2 dummy nodes 
+    public ListNode segregateOddAndEven(ListNode head){
+        if(head == null || head.next==null){
+            return head;
+        }
+
+        ListNode dummy1 = new ListNode(-1);
+        ListNode eHead = dummy1;
+        ListNode dummy2 = new ListNode(-1);
+        ListNode oHead = dummy2;
+        ListNode curr = head;
+
+        while(curr!=null){
+            if(curr.val%2==0){
+                eHead.next = curr;
+                curr = curr.next;
+                eHead = eHead.next;
+            } else {
+                Node forw = curr.next;
+                curr.next = null;
+                oHead.next = curr;
+                oHead = oHead.next;
+                curr = forw;
+            }
+        }
+        // if you put all the l.l without putting null to its next, do dry run for that, each time 
+        // l.l gets changed due to ehead.next, but at last to remove the unnecessary nodes, to null.
+        eHead.next = null;
+        // works for all cases , odd and even.
+        eHead.next = dummy2.next;
+        return dummy1.next;
+
+    }
+
 
     /******************************************************************************************** */
     // leetcode 61 -> Rotate List 
@@ -392,6 +467,49 @@ public class leetcode {
             head.next = c1;
         } else if(c2!=null){ // try.
             head.next = c2;
+        }
+        return dummy.next;
+    }
+
+
+    //========== method 2 -> very slow comparatively though both are nlogn 
+
+    public class newComp implements Comparator<ListNode>{
+        // public int compareTo(newComp o){
+        //     it implements compare 
+        public int compare(ListNode l1,ListNode l2){
+            // if(l1.val<l2.val){
+            //     return -1;
+            // }
+            // else if(l1.val>l2.val)
+            //     return 1;
+            // else
+            //     return 0;
+            return l1.val - l2.val;
+        }
+    }
+    
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists.length==0){
+            return null;
+        }
+        
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(new newComp());
+        for(int i=0;i<lists.length;i++){
+            if(lists[i]!=null){
+                 pq.add(lists[i]);
+            }
+        }
+        ListNode dummy = new ListNode(-1);
+        ListNode head = dummy;
+        while(pq.size()>0){
+            ListNode top = pq.remove();
+            if(top.next!=null){
+                pq.add(top.next);
+            }
+            top.next = null;
+            head.next = top;
+            head = head.next;
         }
         return dummy.next;
     }
