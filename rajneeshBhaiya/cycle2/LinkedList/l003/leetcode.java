@@ -4,7 +4,7 @@ public class leetcode{
     }
 
     public static void solve(){
-
+        hasCycle();
     }
 
     /************************************************************************** */
@@ -27,8 +27,36 @@ public class leetcode{
     }
     /********************************************************************************** */
 
-    //leetcode 160 
+    //leetcode 142. Linked List Cycle II.
+    public ListNode detectCycle(ListNode head) {
+        if (head == null || head == null)
+            return null;
 
+        
+        ListNode slow = head;
+        ListNode fast = head;
+    
+        // cannot do fast.next.next for testcase [1,2] and pos = -1.
+        while(fast!=null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast) break;
+        }
+
+        if(slow!=fast) return null;
+
+        slow = head;
+        while(slow!=fast){
+            slow = slow.next;
+            fast = fast.next;;
+        }
+
+        return slow;
+    }
+    /**************************************************************************************** */
+
+    //leetcode 160 -> Intersection of two linked lists.
+    // method 1 -> O(n) - time complexity 
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         
         ListNode temp1 =headA;
@@ -64,6 +92,9 @@ public class leetcode{
         }
         return null;
     }
+
+    //=== method 2 - 
+    
 
     /**************************************************************************************** */
 

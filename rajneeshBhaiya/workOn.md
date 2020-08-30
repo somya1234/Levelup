@@ -15,4 +15,5 @@ lecture see ds - half -> (21) due to Test. -> bst
 
 1. Dbms lecture -> date -> 22 August 
 
+revise priority queue and heap 
 
