@@ -5,36 +5,32 @@ public class Main {
 
 	public static int solution(String[] words, int[] farr, int[] score, int idx) {
 		//write your code here
+		// no base case needed.
 		
-		if(idx==words.length){
-		    return 0;
-		}
-		
-		int sno = 0 + solution(words,farr,score,idx+1); // not include
-		// word to include 
-		int sword = 0; // score word 
-		String word = words[idx];
-		boolean flag = true;
-		for(int i=0;i<word.length();i++){
-		    char ch = word.charAt(i);
-		    if(farr[ch-'a']==0){
-		        flag = false;
-		        //can not put break here, otherwise some freq will be changed
-		        // ans we even don't know whose
+		int ans = 0;
+		for(int i=idx;i<words.length;i++){
+		    String word = words[i];
+		    int myScore = 0;
+		    boolean res = true;
+		    for(int j=0;j<word.length();j++){
+		        char ch = word.charAt(j);
+		        if(farr[ch-'a']==0){
+		             res = false;
+		        } 
+		        farr[ch-'a']--;
+		      myScore+=score[ch-'a'];
+		           
 		    }
-		    farr[ch-'a']--;
-		    sword+=score[ch-'a'];
+		    if(res){
+		        ans = Math.max(ans, myScore + solution(words,farr,score,idx+1));
+		    }
+		    for(int j=0;j<word.length();j++){
+		        char ch = word.charAt(j);
+		        farr[ch-'a']--;
+		    }
+		   
 		}
-		int syes = 0;
-		if(flag){
-		    syes = sword + solution(words,farr,score,idx+1);
-		}
-		for(int i=0;i<word.length();i++){
-		    char ch = word.charAt(i);
-		    farr[ch-'a']++;
-		}
-		
-		return Math.max(sno,syes);
+		return ans;
 	}
 
 	public static void main(String[] args) {
