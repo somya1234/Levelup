@@ -72,6 +72,51 @@ public class Main {
 
 	/**************************************************************************************** */
 
+	// leetcode 1255 -> Maximum Score of words formed by Letters 
+	
+	public int maxScoreWords(String[] words, char[] letters, int[] score) {
+        if(words.length==0){
+            return 0;
+        }
+        int[] farr = new int[26];
+        for(int i=0;i<letters.length;i++){
+            char ch = letters[i];
+            farr[ch-'a']++;
+        }
+        return maxScorefn(words,farr,score,0);
+    }
+    
+    public int maxScorefn(String[] words,int[] farr,int[] score, int idx){
+        if(idx == words.length){
+            return 0;
+        }
+        
+        int total = 0;
+        int sno = 0 + maxScorefn(words,farr,score,idx+1);
+        String word = words[idx];
+        boolean flag = true;
+        int myScore = 0;
+        
+        for(int i=0;i<word.length();i++){
+            char ch = word.charAt(i);
+            if(farr[ch-'a']==0){
+                flag = false;
+            }
+            farr[ch-'a']--;
+            myScore += score[ch-'a'];
+        }
+        int syes = 0;
+        if(flag)
+            syes = myScore + maxScorefn(words,farr,score,idx+1);
+        for(int i=0;i<word.length();i++){
+            char ch = word.charAt(i);
+            farr[ch-'a']++;
+        }
+        return Math.max(syes,sno);
+	}
+	
+	/***************************************************************************************** */
+
 	public static void main(String[] args) {
 
 		Scanner scn = new Scanner(System.in);
