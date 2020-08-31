@@ -134,6 +134,46 @@ public class leetcode{
 
 
     /**************************************************************************************** */
+    // leetcode 92 -> REverse LinkedList II 
+    // method 1 -> very much thinking 
+    // one pass soln, inplace, constant memory 
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        int idx = m-2;
+        ListNode curr = head;
+         // to reach one node previous from where we have to reverse it
+        while(idx-->0){
+            curr = curr.next;
+        }
+        ListNode prev = null;
+        if(m!=1){
+            prev = curr;
+            curr = curr.next;
+            prev.next = null;
+        }
+        ListNode endNode = curr;
+        ListNode p = null;
+        ListNode forw = curr.next;
+        int steps =n-m;
+        // reverse it 
+        while(steps-->=0){
+            forw = curr.next;
+            curr.next = p;
+            p = curr;
+            curr = forw;
+        }
+        if(prev!=null){
+            prev.next = p;   
+        } else {
+            // when m=1 
+            head = p;
+        }
+        endNode.next = curr;
+        return head;
+        
+    }
 
-
+    /****************************************************************************************** */
 }
