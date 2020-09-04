@@ -70,4 +70,25 @@ public class l002 {
     }
 
     /******************************************************************************************* */
+
+    // leetcode 921 
+    public int minAddToMakeValid(String S) {
+        Stack<Character> st = new Stack<>();
+        int count = 0;
+        for(int i=0;i<S.length();i++){
+            char ch = S.charAt(i);
+            if(ch=='('){
+                st.push(ch);
+            } else {
+                if(st.size()==0){ count++; }
+                else st.pop();
+            }
+        }
+        count+= st.size();
+        return count;
+    }
+
+    /********************************************************************************************* */
+
+
 }
