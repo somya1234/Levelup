@@ -3,7 +3,6 @@
 3. dp - 3 questions 
 
 lecture see ds -> 17,18,
-lecture see dev - 17 
 
 trees (bst)- l001,l002
 
