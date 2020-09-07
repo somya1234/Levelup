@@ -57,6 +57,7 @@ public class leetcode{
     { 
         // code here 
         dpair ans = fn(root);
+        // mpath is answer.
         return ans.mpath;        
     } 
     
@@ -71,7 +72,9 @@ public class leetcode{
         dpair left = fn(node.left);
         dpair right = fn(node.right);
         int msum = Math.max(left.msum, right.msum)+node.data;
-        int mpath = Math.max(left.mpath, Math.max(right.mpath, left.msum+right.msum+node.data));
+        int mpath = Math.max(left.mpath,right.mpath);
+        if(node.left!=null && node.right!=null)
+             mpath = Math.max(mpath, left.msum+right.msum+node.data);
         return new dpair(msum, mpath);
     }
 
@@ -84,14 +87,20 @@ public class leetcode{
             //as values can also be negative here.
             return -(int)1e8;
         }
+           // if it is a leaf, 
         if(node.left == null && node.right == null){
             // do not update max path sum here.
+            // if both null so return (-inf,-inf)+node.data 
+            // so as to avoid this condn return only node.data
             return node.data;
         }
 
         int lsum = maxPathSum(node.left);
         int rsum = maxPathSum(node.right);
-        mapth = Math.max(mpath, lsum+rsum+node.data);
+        // when node has both leaves, then only ans will be calculated.
+        if(node.left!=null && node.right!=null){
+            mapth = Math.max(mpath, lsum+rsum+node.data);
+        }
         return Math.max(lsum,rsum)+node.data;
     }
 
@@ -99,41 +108,35 @@ public class leetcode{
     //leetcode 124 Binary Tree Maximum Path Sum -> Google question 
 
     public int maxPathSum(TreeNode root) {
-        pair ans = maxPathSum_(root);
-        return ans.mpath;
+        return maxPathSum_(root).ans;
     }
+    
     public class pair{
-        int msum = 0;
-        int mpath = 0;
-        pair(int msum, int mpath){
-            this.msum = msum;
-            this.mpath = mpath;
+        int sum = 0;
+        int ans = 0;
+        pair(int sum, int ans){
+            this.sum = sum;
+            this.ans = ans;
         }
     }
     
-    public pair maxPathSum_(TreeNode node){
-        if(node == null){
-            return new pair(-(int)1e8, -(int)1e8);
-            // return new pair(0,0);
+    public pair maxPathSum_(TreeNode root){
+        if(root == null){
+            // if we return Integer.MIN_VALUE, then error below because no condns 
+            // so add in -inf, can let it go out of range.
+            return new pair(-(int)1e8,-(int)1e8);
         }
-        
-        if(node.left == null && node.right == null){
-            return new pair(node.val, node.val);
-        }
-        
-        pair left = maxPathSum_(node.left);
-        pair right = maxPathSum_(node.right);
-        
-        int msum = Math.max(Math.max(left.msum, right.msum)+node.val, node.val);
-        if(left.msum==-(int)1e8){
-            left.msum = 0;
-        }
-        if(right.msum==-(int)1e8){
-            right.msum = 0;
-        }
-        int mpath =Math.max(msum ,Math.max(node.val,Math.max(left.mpath, Math.max(right.mpath, left.msum+right.msum+node.val))));
-        
-        return new pair(msum, mpath);
+          
+        pair left = maxPathSum_(root.left);
+        pair right = maxPathSum_(root.right);
+        // if both -inf, then ans -> (-inf+ -inf + root.val) = -inf.
+        int sum = Math.max(left.sum, right.sum)+root.val;
+        int ans = Math.max(left.ans,Math.max(right.ans,root.val));
+        ans = Math.max(ans,sum);
+        // no condn for left!=null && right!=null as we find max of it
+        ans = Math.max(ans,left.sum+right.sum+root.val);
+        sum = Math.max(sum,root.val);
+        return new pair(sum,ans);
     }
 
     /****************************************************************************************** */
