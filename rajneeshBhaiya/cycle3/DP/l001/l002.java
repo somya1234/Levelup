@@ -1,15 +1,13 @@
-import java.util.LinkedList;
-
-public class l001 {
+public class l002 {
     public static void main(String[] args) {
         solve();
     }
 
     public static void solve(){
-        solve1();
+        // solve1();
         // solve2();
         // solve3();
-        // solve4();
+        solve4();
         // solve5();
     }
 
@@ -31,7 +29,7 @@ public class l001 {
 
     /************************************************************************************/
     public static void solve1(){
-        int n = 5;
+        int n = 7;
         int[] dp = new int[n+1];
         System.out.println(fibo(n));
         System.out.println(fibo2(n,dp));
@@ -85,11 +83,12 @@ public class l001 {
     public static int fibo4(int n ){
         int N = n ;
         int a = 0,b = 1;
-        for(n=2;n<=N;n++){
+        for(n=1;n<=N;n++){
             int sum = a+b;
             a = b;
             b = sum;
         }
+        // if loop from n=2, then return b.
         return a;
     }
 
@@ -101,18 +100,23 @@ public class l001 {
         int n = 3;
         int m = 3;
         int[][] dp = new int [n][m];
+        System.out.println(horiVert(0, 0, n, m));
         System.out.println(horiVert2(0,0, n, m, dp));
+        print2d(dp);
+        dp = new int [n][m];
+        System.out.println(horiVert3(0, 0, n, m, dp));
     }
 
     public static int horiVert(int x, int y , int n , int m ){
-        if(x==n || y==m){
-            return 0;
-        } else if(x==n-1 && y==m-1){
+       if(x==n-1 && y==m-1){
             return 1;
         }
 
-        int h = horiVert(x, y+1, n, m);
-        int v = horiVert(x+1, y, n, m);
+        int h = 0, v = 0;
+        if(y+1<m)
+         h = horiVert(x, y+1, n, m);
+        if(x+1<n)
+         v = horiVert(x+1, y, n, m);
         return h+v;
     }
 
@@ -130,6 +134,8 @@ public class l001 {
         return dp[x][y] = h+v;
     }
 
+    // in tabulation pre-ctive approaches are used 
+    // sp prefer them in memoization. 
     public static int horiVert3(int x, int y , int n , int m , int[][]dp){
         for(x=n-1;x>=0;x--){
             for(y=m-1;y>=0;y--){
@@ -137,9 +143,12 @@ public class l001 {
                      dp[x][y] = 1;
                      continue;
                 }
-        
-                int h = dp[x][y+1];
-                int v = dp[x+1][y];
+
+                int h=0,v = 0;
+                if(y+1<m)
+                 h = dp[x][y+1];
+                if(x+1<n)
+                 v = dp[x+1][y];
                  dp[x][y] = h+v;
             }
         }
@@ -148,16 +157,20 @@ public class l001 {
 
     /************************************************************************************/
 
-    // public static void solve3(){
-    //     int n = 3;
-    //     int[][] dp = new int[n][n];
-    //     System.out.println(mazePathHVD(0, 0 , n-1, n-1 , dp);
-    // }
+    public static void solve3(){
+        int n = 3;
+        int[][] dp = new int[n][n];
+        System.out.println(mazePathHVD(0, 0 , n-1, n-1 , dp));
+        print2d(dp);
+        dp = new int[n][n];
+        System.out.println(mazePathHVD2(0, 0, n-1, n-1, dp));
+        print2d(dp);
+    }
 
     // memoization 
     public static int mazePathHVD(int sr, int sc, int er, int ec, int[][] dp){
         if(sr==er && sc==ec){
-            return dp[sr][er] = 1;
+            return dp[sr][sc] = 1;
         }
         if(dp[sr][sc]!=0) return dp[sr][sc];
 
@@ -166,7 +179,7 @@ public class l001 {
         if(sr+1<=er) count+= mazePathHVD(sr+1, sc, er, ec, dp);
         if(sr+1<=er && sc+1<=ec) count+=mazePathHVD(sr+1, sc+1, er, ec, dp);
 
-        return dp[sr][er] = count;
+        return dp[sr][sc] = count;
     }
 
     //tabulation 
@@ -175,7 +188,7 @@ public class l001 {
         for( sr = er;sr>=0; sr--){
             for(sc = ec; sc>=0; sc--){
                 if(sr==er && sc==ec){
-                    dp[sr][er] = 1;
+                    dp[sr][sc] = 1;
                     continue;
                 }
         
@@ -184,7 +197,7 @@ public class l001 {
                 if(sr+1<=er) count+=  dp[sr+1][sc]; //mazePathHVD(sr+1, sc, er, ec, dp);
                 if(sr+1<=er && sc+1<=ec) count+= dp[sr+1][sc+1]; //mazePathHVD(sr+1, sc+1, er, ec, dp);
         
-                dp[sr][er] = count;
+                dp[sr][sc] = count;
             }
         }
         return dp[0][0];
@@ -193,12 +206,33 @@ public class l001 {
 
     /************************************************************************************/
 
+    public static void solve4(){
+        int n = 4;
+        System.out.println(mazePathJumps(0, 0, n));
+        int[][] dp = new int[n][n];
+        System.out.println(mazePathHVDJump(0, 0, n-1, n-1, dp));
+        print2d(dp);
+    }
+
+    // recursion 
+    public static int mazePathJumps(int x, int y, int n ){
+        if(x==n-1 && y == n-1){
+            return 1;
+        }
+        int count = 0;
+        for(int jump=1;x+jump<n ; jump++) count+= mazePathJumps(x+jump, y, n);
+        for(int jump=1;y+jump<n ; jump++) count+= mazePathJumps(x, y+jump, n);
+        for(int jump=1;x+jump<n && y+jump<n ; jump++) count+= mazePathJumps(x+jump, y+jump, n);
+        return count;
+    }
+
+    // tabulation 
     public static int mazePathHVDJump(int sr, int sc, int er, int ec, int[][] dp){
 
         for( sr = er;sr>=0; sr--){
             for(sc = ec; sc>=0; sc--){
                 if(sr==er && sc==ec){
-                    dp[sr][er] = 1;
+                    dp[sr][sc] = 1;
                     continue;
                 }
         
@@ -207,22 +241,25 @@ public class l001 {
                 for(int jump = 1; sr+jump<=er; jump++) count+=  dp[sr+jump][sc]; //mazePathHVD(sr+1, sc, er, ec, dp);
                 for(int jump = 1; sc+jump<=ec && sr+jump<=er; jump++) count+= dp[sr+jump][sc+jump]; //mazePathHVD(sr+1, sc+1, er, ec, dp);
         
-                dp[sr][er] = count;
+                dp[sr][sc] = count;
             }
         }
         return dp[0][0];
         
     }
 
-    /************************************************************************************/
+    /*******************************************************************************************/
 
-    // board path 
-    public static void solve4(){
+    public static void solve5(){
         int n = 10;
         int[] dp = new int[n+1];
-        System.out.println(diceboard2(n, dp));
+        // System.out.println(diceboard2(n, dp));
+        System.out.println(boardPath2(0, n, dp));
+        dp = new int[n+1];
+        System.out.println(boardPath3(0, n, dp));
     }
 
+    // recursion from method 2 
     public static int diceboard(int n ){
         if(n==0){
             return 1;
@@ -235,122 +272,41 @@ public class l001 {
         return count;
     }
 
-    public static int diceboard2(int n, int[] dp ){
-        if(n==0){
-            return dp[n] = 1;
+    // memoization 
+    public static int boardPath2(int si,int ei,int[] dp){
+        if(si==ei){
+            return dp[si] = 1;
         }
-        if(dp[n]!=0) return dp[n];
 
-        int count = 0;
-        for(int step = 1;step<=n && n-step>=0; step++){
-            count+=diceboard2(n-step, dp);
+        if(dp[si]!=0) return dp[si];
+
+        int count=0;
+        for(int dice = 1; dice <= 6 && si + dice <= ei ; dice++){
+            count+=boardPath2(si+dice,ei,dp);
         }
-        return dp[n] = count;
+
+        return dp[si] = count;
     }
 
-    public static int diceboard3(int n , int[] dp){
-        int N = n;
-        for( n = 0; n<=N;n++){
-            if(n==0){
-                dp[n] = 1;
-                continue;
+    //tabulation 
+    public static int boardPath3(int si,int ei,int[] dp){
+        for(si= ei;si>=0;si--){
+            if(si==ei){
+                 dp[si] = 1;
+                 continue;
             }
     
-            int count = 0;
-            for(int step = 1;step<=n && n-step>=0; step++){
-                count+=  dp[n-step]; //diceboard2(n-step, dp);
+            int count=0;
+            for(int dice = 1; dice <= 6 && si + dice <= ei ; dice++){
+                count+=dp[si+dice];
             }
-            dp[n] = count;
+    
+            dp[si] = count;
         }
-        return dp[n];
+        return dp[0];
+       
     }
 
-    public static int diceboard4(int n ){
-        // space complexity -> constant -> O(6)
-        LinkedList<Integer> ll = new LinkedList<>();
 
-        for(si=ei;si>=0; si--){
-            if(si>=ei-1){
-                ll.addFirst(1);
-                continue;
-            }
-
-            if(ll.size()<7) ll.addFirst(ll.getFirst()*2);
-            else {
-                // last value.
-                int lval = ll.removeLast();
-                ll.addFirst(ll.getFirst()*2 - lval);
-            }
-        }
-        return ll.getFirst();
-        // ll.addFirst(1);
-        // ll.addFirst(1);
-        // while(n-->1){
-        //     if(ll.size()<7){
-        //         Node node = ll.removeFirst();
-        //         ll.addFirst(node.data);
-        //         ll.addFirst(2*node.data);
-        //     } else {
-        //         Node data1 = ll.removeFirst().data;
-        //         Node data2 = ll.removeLast().data;
-        //         ll.addFirst(data1);
-        //         ll.addFirst(2*data1 - data2);
-        //     }
-        // }
-        // while(ll.size()>1){
-        //     ll.removeLast();
-        // }
-        // return ll.removeFirst().data;
-    }
-
-    /************************************************************************************/
-    public static void solve5(){
-        int n = 10;
-        int[] arr= {1,3,5};
-        int[] dp = new int[n+1];
-        // no use of idx in repeated permutations.
-        System.out.println(facedDice2(arr, 0, n, dp));
-    }
-
-    public static int facedDice(int[] arr, int idx, int n ){
-        if(n==0) return 1;
-
-        int count = 0;
-        for(int i=0;i<arr.length && n-arr[i]>=0;i++){
-            count+= facedDice(arr, idx, n-arr[i]);
-        }
-        return count;
-
-    }
-
-    public static int facedDice2(int[] arr, int idx, int n, int[] dp ){
-        if(n==0) return dp[n] = 1;
-        if(dp[n]!=0) return dp[n];
-        
-        int count = 0;
-        for(int i=0;i<arr.length && n-arr[i]>=0;i++){
-            count+= facedDice2(arr, idx, n-arr[i], dp);
-        }
-        return dp[n] = count;
-
-    }
-
-    // tabulation 
-    public static int facedDice3(int[] arr, int idx, int n, int[] dp ){
-        int N = n;
-        for(n = 0; n<=N;n++){
-            if(n==0) {
-                dp[n] = 1;
-                continue;
-            }
-            
-            int count = 0;
-            // for(int i=0;i<arr.length && n-arr[i]>=0;i++){
-            //     count+= dp[[n-arr[i]]];  //acedDice2(arr, idx, n-arr[i], dp);
-            // }
-            dp[n] = count;
-        }
-        return dp[n];
-    }
-    /************************************************************************************/
+    /*******************************************************************************************/
 }
