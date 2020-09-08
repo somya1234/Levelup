@@ -65,7 +65,20 @@ public class leetcode {
 		    }
 		    System.out.println(b%(mod));
 		}
-	}
+    }
+    
+    // method 2 
+    static int mod = (int)(1e9+7);
+    // make dp of long and return type of long.
+    // do mod wherever multiply and add.
+	public static long friendsPairing(int n , long[] dp ){
+        if(n<=1) return dp[n] = 1;
+        if(dp[n]!=0) return dp[n];
+
+        long single  = friendsPairing(n-1, dp);
+        long pairUp = (friendsPairing(n-2, dp) * (n-1))%mod;
+       return dp[n] = (single + pairUp)%mod; 
+    }
 
 
     /************************************************************************************************/
