@@ -6,7 +6,8 @@ public class l002 {
     public static void solve(){
         // solve1();
         // solve2();
-        solve3();
+        // solve3();
+        solve4();
     }
 
     /*********************************************************************************************** */
@@ -291,4 +292,33 @@ public static int countPartitionWays3(int n , int k , int[][] dp){
 }
 
 /***********************************************************************************************/
+
+    public static void solve4(){
+        int n = 1;
+        int[][] dir = {{-1,0},{0,-1},{1,0},{0,1}};
+        System.out.println(mobileNumericKeypad(n, dir));
+    }
+    static int[][] arr = {{1,2,3},{4,5,6},{7,8,9},{-1,0,-1}};
+
+    public static int mobileNumericKeypad(int n, int[][] dir){
+        int count = 0;
+        for(int i=0;i<arr.length;i++){
+            for(int j=0;j<arr[0].length;j++){
+                if(arr[i][j]!=-1){
+                    for(int d = 0;d<dir.length;d++){
+                        int x = i + dir[d][0];
+                        int y = j + dir[d][1];
+                        if(x>=0 && y>=0 && x<arr.length && y<arr[0].length && arr[x][y]!=-1){
+                            count+=1;
+                        }
+                    }
+                    count+=1;
+                }
+            }
+        }
+        return count;
+    }
+
+/***********************************************************************************************/
+
 }
