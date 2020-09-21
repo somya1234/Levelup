@@ -47,7 +47,7 @@ public class l001 {
         graph[u].remove(idx);
 
         idx = findEdge(v, u);
-        graph[v].remove(u);
+        graph[v].remove(idx);
     }
 
     public static void removeVtx(int u){

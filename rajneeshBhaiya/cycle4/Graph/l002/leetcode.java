@@ -8,11 +8,56 @@ public static void questions(){
     surroundedRegions(); 
 }
 
+/***************************************************************************************/
 
-public boolean isBipartite(int[][] graph){
+// leetcode 785. Is Graph Bipartite?
+
+// method 1 - using pair class , by Somya.
+public boolean isBipartite(int[][] graph) {
+    if(graph.length == 0)
+        return true;
     
+    boolean[] vis = new boolean[graph.length];
+    for(int i =0; i<vis.length; i++){
+        if(vis[i]==false){
+            boolean ans = isBipartite_(i, graph, vis);
+            if(!ans) return false;
+        }
+    }
+    return true;
 }
 
+public boolean isBipartite_(int src, int[][] graph, boolean[] vis){
+    LinkedList<pair> que = new LinkedList<>(); 
+    int level = 0;
+    que.add(new pair(src,0));
+    while(que.size()!=0){
+        pair top = que.remove(); 
+        
+        if(vis[top.val]==true){
+            if(top.level != level){
+                return false;
+            }
+        }
+        vis[top.val] = true;
+        level = Math.max(level, top.level);
+        
+        for(int nbr : graph[top.val]){
+            if(!vis[nbr])
+                que.add(new pair(nbr, top.level+1));
+        }
+    }
+    return true;
+}
+
+public class pair {
+    int val; 
+    int level; 
+    pair(int val, int level){
+        this.val = val; 
+        this.level = level;
+    }
+}
 /***************************************************************************************/
 
 // 130. Surrounded Regions
