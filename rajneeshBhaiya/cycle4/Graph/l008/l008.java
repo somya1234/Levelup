@@ -7,7 +7,8 @@ public class l008 {
 
 
     public static void solve(){
-
+        // articulation point and Bridges.
+        APoint_Bridges();
     }
 
     /*************************************************************************************/
@@ -27,7 +28,8 @@ public class l008 {
 
         for(Edge e : graph[src]){
             if(!vis[e.v]){
-                // to count the number of calls from root.
+                // to count the number of calls from root. or you can check 
+                // discover[src] == 0, i.e call at root, but won't work when many components in graph.
                 if(par==-1) rootCount++;
 
                 DFS_APB(e.v, src);
@@ -37,7 +39,6 @@ public class l008 {
                 if(discover[src]<low[e.v]) {
                     System.out.println("Articulation Bridge : "+ src+" -> "+e.v);
                 }
-
 
                 low[src] = Math.min(low[src],low[e.v]);
 
