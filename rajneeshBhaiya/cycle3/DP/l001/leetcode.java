@@ -52,6 +52,7 @@ public class leetcode {
     /**************************************************************************************/
 
     // leetcode 746 -> Min Cost Climbing Stairs
+    
     public int minCostClimbingStairs(int[] cost) {
         int[] dp = new int[cost.length + 1];
         int x = minCost_(cost, 0, dp);
@@ -148,6 +149,61 @@ public class leetcode {
              dp[idx] = Math.min(cost1,cost2)+cost[idx];
         }
         return dp[cost.length];
+    }
+
+    /**************************************************************************************/
+
+
+    public static int friendsPairing_mem(int n , int[] dp){
+        if(n<=1) return dp[n] = 1; 
+
+        if(dp[n]!=0) return dp[n];
+
+        int single = friendsPairing_mem(n-1, dp); 
+        int pairUp = friendsPairing_mem(n-2, dp) * (n-1); 
+
+        return dp[n] = single + pairUp;
+    }
+
+    public static int friendsPairing_DP(int n , int[] dp){
+        int N = n; 
+        for(n =0; n<=N; n++){
+            if(n<=1){
+                dp[n] = 1; 
+                continue; 
+            } 
+
+            int single = dp[n-1]; 
+            int pairUp = dp[n-2] * (n-1); 
+
+            dp[n] = single + pairUp;
+        }
+        // do not return dp[n], because n++.
+        return dp[N]; 
+    }
+
+
+    /**************************************************************************************/
+
+    // GFG - Count number of ways to partition a set into k subsets
+    // https://www.geeksforgeeks.org/count-number-of-ways-to-partition-a-set-into-k-subsets/
+
+    public static int countWays_Rec(int n , int k ){
+        if(n == 0 ) return 1; 
+
+        int a = countWays_Rec(n-1, k-1);
+        int b = countWays_Rec(n-1, k);
+        int ans = a + (k*b); 
+        return ans; 
+    }
+
+    public static int countWays_Mem(int n , int k ){
+        if(n == k || k==1) return 1; 
+
+        int a = countWays_Rec(n-1, k-1);
+        int b = countWays_Rec(n-1, k);
+        int ans = a + (k*b); 
+        return ans; 
     }
 
     /**************************************************************************************/
