@@ -32,9 +32,9 @@ class Solution {
                             if(!busStandVis.contains(bs)){
                                 que.add(bs);
                                 busStandVis.add(bs); 
-                                if(busStand == T){
+                                if(bs == T){
                                     // no need to process all other buses, 
-//                                     jus return 1 more level adding in count.
+//                                     just return 1 more level adding in count.
                                     return count+1; 
                                 }
                             }
@@ -50,3 +50,9 @@ class Solution {
         return -1;
     }
 }
+
+
+
+// ===========================
+// similar question - books and genre (Amazon 2020 online test.)
+// https://leetcode.com/discuss/interview-question/373006
