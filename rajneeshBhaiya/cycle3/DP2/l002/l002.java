@@ -31,7 +31,7 @@ public class l002 {
         String str = "geeksforgeeks";
         // bbabcbcab - 7
         // String str = "bbabcbcab";
-        // String str = "abbc";
+        // String str = "abbca";
         // System.out.println(longestPlaindromicSubsq_Rec(0, str.length()-1, str));
 
         int n = str.length();
@@ -40,8 +40,10 @@ public class l002 {
         // called
         // but called in memo due to reference point is 0 or base condn 0
         // eg aaaa, extra call on 0.
-        for (int[] d : dp)
-            Arrays.fill(d, -1);
+
+        //  if you fill -1.  then remember - (-1+2= 1)
+        // for (int[] d : dp)
+        //     Arrays.fill(d, -1);
         /*
          * -1 -1 -1 -1 -1 -1 -1 -1 4 4 5 5 5 -1 -1 2 2 2 2 2 2 -1 3 5 5 5 -1 0 1 1 1 1 1
          * 1 1 3 3 4 4 -1 -1 -1 1 1 1 1 1 1 1 -1 4 4 -1 -1 -1 -1 1 1 1 1 1 1 2 -1 4 -1
@@ -50,9 +52,17 @@ public class l002 {
          * -1 1 2 2 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0 1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
          * -1 1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
          */
+
+        //  memoization 
         // System.out.println(longestPlaindromicSubsq_Mem(0, n - 1, str, dp));
-        System.out.println(longestPlaindromicSubsq_Tab(0, n-1, str, dp));
-        print2d(dp);
+        // System.out.println(longestPlaindromicSubsq_Tab(0, n-1, str, dp));
+        // print2d(dp);
+
+        // display the longest palindromic subsequence string 
+        int len = longestPlaindromicSubsq_Mem(0, n-1, str, dp);
+        char[] ans = new char[len];
+        System.out.println(len);
+        printLPS(str, 0,n-1, dp, ans, 0, len-1);
     }
 
     public static int longestPlaindromicSubsq_Rec(int si, int ei, String str) {
@@ -78,7 +88,7 @@ public class l002 {
         if (si > ei)
             return dp[si][ei] = 0;
 
-        if (dp[si][ei] != -1)
+        if (dp[si][ei] != 0)
             return dp[si][ei];
 
         if (str.charAt(si) == str.charAt(ei))
@@ -107,12 +117,34 @@ public class l002 {
     }
 
     /************************************************************************************/
+    // print longest plindromic subsequence
 
-    public static void solve2(){
-
-    }
+    // i and j for char[]
+    // si and ei for string 
+    // It gives single longest palindromic subsq.
+    public static void printLPS(String str, int si, int ei, int[][] dp, char[] ans, int i, int j ){
+        if(si>=ei) {
+            if(si==ei)
+                ans[i] = str.charAt(si);
+            for(char ch : ans) System.out.print(ch);
+            System.out.println();
+            return;
+        }
 
     
+        // if(si>ei) return;
+
+        if(str.charAt(si)==str.charAt(ei)){
+            ans[i] = ans[j] = str.charAt(si);
+            printLPS(str, si+1, ei-1, dp, ans, i+1, j-1);
+        } else if(dp[si+1][ei]>dp[si][ei-1]){
+            // because, here we only took max out of two, ans is not formed here
+            // so can't add anything in our char[] ans.
+            printLPS(str, si+1, ei, dp, ans, i, j);
+        } else{
+            printLPS(str, si, ei-1, dp, ans, i, j );
+        }
+    }
 
 
 
