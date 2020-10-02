@@ -6,7 +6,8 @@ public class leetcode {
     }
 
     public static void solve() {
-        solve1();
+        // solve1();
+        solve2(); 
     }
 
     /*********************************************************************************************** */
@@ -182,6 +183,36 @@ public class leetcode {
         return dp[n][m]; 
 
     }
+
+    /***************************************************************************/
+    // leetcode 44 Wildcard Matching
+
+    public static void solve2(){
+        String s = "adceb"; 
+        String p = "*a*b"; 
+        // System.out.println(isMatch_rec(s, p, 0, 0));
+        System.out.println();
+        System.out.println("hi m hu ? ");
+    }
+
+    public static boolean isMatch_rec(String s, String p, int i, int j ){
+        int n = s.length(); 
+        int m = p.length();
+        
+        if(i == n && j == m ) return true ; 
+        else if(i==n || j ==m ) return false; 
+
+        char ch1 = s.charAt(i); 
+        char ch2 = s.charAt(j); 
+        if(ch1 == ch2 || ch2=='?'){
+            return isMatch_rec(s, p, i+1, j+1);
+        } else if(ch2 == '*'){
+            return isMatch_rec(s, p, i, j+1) || isMatch_rec(s, p, i+1, j);
+        } else {
+            return false; 
+        }
+    } 
+
 
     /***************************************************************************/
 
