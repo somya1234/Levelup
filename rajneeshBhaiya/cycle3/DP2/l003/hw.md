@@ -5,6 +5,6 @@ https://www.youtube.com/watch?v=IV9pbZsi5cc - done.
 
 https://www.youtube.com/watch?v=fvYlinirmFg&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=21
 
-https://www.geeksforgeeks.org/lcs-longest-common-subsequence-three-strings/ 
+https://www.geeksforgeeks.org/lcs-longest-common-subsequence-three-strings/ - done.
 leetcode 72 - done.
 leetcode 44 
