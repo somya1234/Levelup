@@ -1,28 +1,37 @@
 public class l004 {
-    
-}
+    public static void main(String[] args) {
+        solve();
+    }
 
-public int numDecodings(String s,int idx,int[] dp){
-    if(idx >= s.length()){
-        return dp[idx] = 1;
-    }
-    
-    if(dp[idx] != 0) return dp[idx];
-    
-    
-    char ch = s.charAt(idx);
-    if(ch == '0') return 0;
-    
-    int count = 0;
-    
-    count += numDecodings(s,idx+1,dp);
-    if(idx < s.length()-1){
-        char ch1 = s.charAt(idx+1);
-        int num = ( ch - '0') * 10 + (ch1 - '0');
-        if(num <= 26){
-            count += numDecodings(s,idx + 2,dp);
+    /********************************************************************************************/
+
+    public static void print(int[] arr) {
+        for (int ele : arr) {
+            System.out.print(ele + " ");
         }
+        System.out.println();
     }
-    
-    return dp[idx] = count;
+
+    public static void print2d(int[][] arr) {
+        for (int[] ar : arr) {
+            print(ar);
+        }
+        System.out.println();
+    }
+
+    /**************************************************************************************/
+
+    public static void solve(){
+        solve1(); 
+    }
+
+
+    /*****************************************************************************************/
+
+    public static void solve1(){
+        
+    }
+
+    /*****************************************************************************************/
+
 }

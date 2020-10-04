@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class leetcode {
     public static void main(String[] args) {
         solve();
@@ -154,11 +156,22 @@ public class leetcode {
 
     // leetcode 639 - Decoding Ways II 
     public static void solve2(){
-        String str = "1*";
-        System.out.println(decode_rec(str, 0));
+        // String str = "1*"; // 18 ans 
+        // String str = "*"; // 9 ans
+        String str = "1*1"; // 20 ans
+        int n = str.length();
+
+        // System.out.println(decode_bruteforce(str, 0));
+        // System.out.println(decode_rec(str, 0));
+
+        // memoization 
+        long[] dp = new long[n+1]; 
+        Arrays.fill(dp, -1);
+        System.out.println(decode_mem(str, 0, dp));
+        // print(dp);
     }
 
-    public static int decode_rec(String str, int idx){
+    public static int decode_bruteforce(String str, int idx){
         int n = str.length();
 
         if(idx == n ) return 1; 
@@ -169,8 +182,9 @@ public class leetcode {
         int count = 0; 
         if(ch == '*'){
             // 9 single time call krenge, baaki ke ans m add single calls
-            count+=decode_rec(str, idx+1) * 9;
-        } else count+= decode_rec(str, idx+1);
+            count+=decode_bruteforce(str, idx+1) * 9;
+            // System.out.println(count);
+        } else count+= decode_bruteforce(str, idx+1);
 
         if(idx<n-1){
             if(ch == '*'){
@@ -179,12 +193,12 @@ public class leetcode {
                     char ch1 = str.charAt(idx+1); 
                     if(ch1 == '*'){
                         for(int i=1; i<=9; i++){
-                            num = num*10+i; 
-                            if(num<=26) count+=decode_rec(str, idx+2);
+                            int number = num*10+i; 
+                            if(number<=26) count+=decode_bruteforce(str, idx+2);
                         }
                     } else{
-                        num = num*10 + (ch1 - '0');
-                        if(num<=26) count+= decode_rec(str, idx+2);
+                        int number = num*10 + (ch1 - '0');
+                        if(number<=26) count+= decode_bruteforce(str, idx+2);
                     }
                 }
             } else{
@@ -192,12 +206,14 @@ public class leetcode {
                 char ch1 = str.charAt(idx+1); 
                 if(ch1 == '*'){
                     for(int i =1; i<=9; i++){
-                        num = num*10+i; 
-                        if(num<=26) count+=decode_rec(str, idx+2);
+                        int number  = num*10+i; 
+                        if(number<=26){
+                            count+=decode_bruteforce(str, idx+2);
+                        } 
                     }
                 } else{
                     num = num*10+(ch1 - '0'); 
-                    if(num<=26) count+=decode_rec(str, idx+2);
+                    if(num<=26) count+=decode_bruteforce(str, idx+2);
                 }
             }
         }
@@ -206,6 +222,82 @@ public class leetcode {
     
     }
 
+    // Recursion --- 
+    public static int decode_rec(String str, int idx){
+        int n = str.length(); 
+        int mod = (int)1e9+7; 
+
+        if(idx == n ) return 1; 
+
+        char ch = str.charAt(idx); 
+        if(ch == '0') return 0; 
+
+        int count = 0; 
+        if(ch == '*') count= (count % mod + 9 * decode_rec(str, idx+1)  % mod) % mod ; 
+        else count= (count % mod + decode_rec(str, idx+1) % mod) % mod; 
+
+        if(idx<n-1){
+            char ch1 = str.charAt(idx+1); 
+            // case - **
+            if(ch == '*' && ch1=='*') count= ( count%mod + 15 * decode_rec(str, idx+2) %mod) % mod; 
+            // case - *num
+            else if( ch == '*'){
+                if(ch1>='0' && ch1<='6') count = (count % mod + 2 * decode_rec(str, idx+2) % mod) % mod; 
+                else count = (count % mod + decode_rec(str, idx+2) % mod ) % mod; 
+            //case - num*
+            } else if(ch>='1' && ch<='9' && ch1=='*'){
+                if(ch == '1') count = ( count % mod + 9 * decode_rec(str, idx+2) % mod) % mod; 
+                else if( ch == '2')  count = ( count % mod + 6 * decode_rec(str, idx+2) % mod) % mod; 
+            // case - num*num
+            } else{
+                int num = ch - '0'; 
+                num = num * 10 + ch1- '0'; 
+                if(num <= 26 ) count = ( count % mod + decode_rec(str, idx+2) % mod) % mod;
+            }
+        
+        }
+        return count; 
+    }
+
+    // memoization 
+    // good to make mod of long type.- no overflow chakkar 
+    public static long decode_mem(String str, int idx, long[] dp){
+        int n = str.length(); 
+        long mod = (int)1e9+7; 
+
+        if(idx == n ) return dp[idx] = 1; 
+
+        if(dp[idx]!=-1) return dp[idx]; 
+
+        char ch = str.charAt(idx); 
+        if(ch == '0') return dp[idx] = 0; 
+
+        long count = 0; 
+        if(ch == '*') count= (count % mod + 9 * decode_mem(str, idx+1, dp)  % mod) % mod ; 
+        else count= (count % mod + decode_mem(str, idx+1, dp) % mod) % mod; 
+
+        if(idx<n-1){
+            char ch1 = str.charAt(idx+1); 
+            // case - **
+            if(ch == '*' && ch1=='*') count= ( count%mod + 15 * decode_mem(str, idx+2, dp) %mod) % mod; 
+            // case - *num
+            else if( ch == '*'){
+                if(ch1>='0' && ch1<='6') count = (count % mod + 2 * decode_mem(str, idx+2, dp) % mod) % mod; 
+                else count = (count % mod + decode_mem(str, idx+2, dp) % mod ) % mod; 
+            //case - num*
+            } else if(ch>='1' && ch<='9' && ch1=='*'){
+                if(ch == '1') count = ( count % mod + 9 * decode_mem(str, idx+2, dp) % mod) % mod; 
+                else if( ch == '2')  count = ( count % mod + 6 * decode_mem(str, idx+2, dp) % mod) % mod; 
+            // case - num*num
+            } else{
+                int num = ch - '0'; 
+                num = num * 10 + ch1- '0'; 
+                if(num <= 26 ) count = ( count % mod + decode_mem(str, idx+2, dp) % mod) % mod;
+            }
+        
+        }
+        return dp[idx] = count % mod; 
+    }
 
     /**************************************************************************************/
 
