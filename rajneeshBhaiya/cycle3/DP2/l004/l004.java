@@ -163,8 +163,23 @@ public class l004 {
         // System.out.println(targetSum_rec(coins, tar, 0, ""));
         int[][] dp = new int[coins.length+1][tar+1]; 
         for(int[] d : dp) Arrays.fill(d, -1);
-        System.out.println(targetSum_mem(coins, tar, 0, dp));
+        // System.out.println(targetSum_mem(coins, tar, 0, dp));
+        // print2d(dp);
+
+        // Backwards memoization 
+        int n = coins.length; 
+        // System.out.println(targetSum_backwards(coins, tar, n, dp));
+        // print2d(dp);
+
+        //tabulation 
+        for(int[] d : dp) Arrays.fill(d, 0);
+        // System.out.println(targetSum_tab(coins, tar, dp, n));
+        // print2d(dp);
+
+        // print all ways to reach target Sum 
+        targetSum_tab(coins, tar, dp, n);
         print2d(dp);
+        printCoins(coins, tar, n, dp, "");
     }
 
     // using subsequence method here.
@@ -198,6 +213,50 @@ public class l004 {
         ans+= targetSum_mem(coins, tar, idx+1, dp); 
 
         return dp[idx][tar] = ans; 
+    }
+
+    public static int targetSum_backwards(int[] coins, int tar, int n , int[][] dp){
+        if(tar == 0 || n == 0) return dp[n][tar] = (tar==0) ? 1: 0; 
+
+        if(dp[n][tar]!=-1) return dp[n][tar]; 
+
+        int ans = 0; 
+        if(tar - coins[n-1]>=0) ans+= targetSum_backwards(coins, tar- coins[n-1], n-1, dp);
+        ans+= targetSum_backwards(coins, tar, n-1, dp); 
+
+        return dp[n][tar] = ans; 
+    }
+
+    // Tabulation 
+    public static int targetSum_tab(int[] coins, int tar, int[][] dp, int n ){
+        int N = n; int Tar = tar; 
+        for(n=0; n<=N; n++){
+            for(tar = 0; tar<=Tar; tar++){
+                if(tar == 0 || n ==0){
+                    dp[n][tar] = (tar==0) ? 1: 0; 
+                    continue; 
+                }
+                if(tar - coins[n-1]>=0) dp[n][tar] = dp[n-1][tar-coins[n-1]]; 
+                dp[n][tar]+= dp[n-1][tar]; 
+            }
+        }
+        return dp[N][Tar]; 
+    }
+
+    public static void printCoins(int[] coins, int tar, int n, int[][] dp, String ways){
+        if(tar == 0 ){
+            System.out.println(ways);
+            return;
+        }
+
+        int val = dp[n][tar]; 
+        if(val>0){
+            if(tar - coins[n-1]>=0){
+                printCoins(coins, tar-coins[n-1], n-1, dp, ways+coins[n-1]+" ");
+            }
+            printCoins(coins, tar, n-1, dp, ways);
+        }
+        return; 
     }
     /*****************************************************************************************/
 }
