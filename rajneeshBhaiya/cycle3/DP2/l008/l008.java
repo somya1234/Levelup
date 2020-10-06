@@ -4,7 +4,9 @@ public class l008{
     }
 
     public static void solve(){
-        solve1();
+        // solve1();
+        // solve2();
+        solve3(); 
     }
 
     /***************************************************************************************/
@@ -115,24 +117,92 @@ public class l008{
     /***************************************************************************************/
 
     public static void solve2(){
-
+        int[] arr = {40, 20, 30, 10, 30}; 
+        int n = arr.length; 
+        int[][] dp = new int[n][n]; 
+        String[][] ans = new String[n][n]; 
+        System.out.println(mcm_String(arr, 0, n-1, dp, ans));
+        System.out.println(ans[0][n-1]);
     }
 
-    public static int mcm_String(int[] arr, int si, int ei, int[][] dp, String[][] ans){
-        if(si+1 == ei) {
-             ans[si][ei] = ""+ (char)('A'+si);
-             return dp[si][ei] = 0;  
-        }
-
-        int res = 0; 
-        for(int cut = si+1; cut<ei; cut++){
-            int leftTree = mcm_String(arr, si, cut, dp, ans); 
-            int rightTree = mcm_String(arr, cut , ei, dp, ans); 
-            int myAns = leftTree + rightTree + arr[si] * arr[cut] * arr[ei]; 
-            if(myAns < res){
-                res = myAns; 
-                ans[si][ei] = "(" ; 
+    public static int mcm_String(int[] arr, int si, int ei,  int[][] dp, String[][] ans){
+        int Ei = ei; 
+        for(int gap = 1; gap<=Ei; gap++ ){
+            for(si = 0, ei = gap; ei<=Ei; si++, ei++){
+                if(si+1 == ei) {
+                    ans[si][ei] = ""+ (char)('A'+si);
+                    dp[si][ei] = 0;  
+                    continue; 
+               }
+       
+               int res = (int)1e8; 
+               for(int cut = si+1; cut<ei; cut++){
+                   int leftTree = dp[si][cut]; 
+                   int rightTree = dp[cut][ei];  
+                   int myAns = leftTree + rightTree + arr[si] * arr[cut] * arr[ei]; 
+                   if(myAns < res){
+                       res = myAns; 
+                       ans[si][ei] = "(" + ans[si][cut] +ans[cut][ei] +")"; 
+                   }
+               }
+                dp[si][ei] = res; 
             }
         }
+        return dp[0][Ei]; 
     }
+
+    /******************************************************************************************/
+
+    public static void solve3(){
+        int[] numArr = {1,2,3,4,5}; 
+        char[] chArr = {'+', '*', '+', '*'}; 
+        int n = numArr.length; 
+        minMaxPair[][] dp = new minMaxPair[n][n]; 
+        minMaxPair ans = minMaxValue_02(numArr, chArr, 0 , n-1, dp); 
+        System.out.println(ans);
+
+        for(minMaxPair[] d : dp){
+            for(minMaxPair e : d){
+                System.out.print(e);
+            }
+            System.out.println();
+        }
+    }
+
+    public static minMaxPair evalCombination(char operator, minMaxPair p1, minMaxPair p2){
+        int a = evaluate(operator, p1.minVal, p2.minVal); 
+        int b = evaluate(operator, p1.maxVal, p2.maxVal); 
+        int c = evaluate(operator, p1.minVal, p2.maxVal);
+        int d = evaluate ( operator, p1.maxVal, p2.minVal); 
+
+        minMaxPair p = new minMaxPair(); 
+        p.minVal = Math.min(Math.min(a, b), Math.min(c, d)); 
+        p.maxVal = Math.max(Math.max(a, b), Math.max(c, d)); 
+
+        return p; 
+    }
+
+    public static minMaxPair minMaxValue_02(int[] numArr, char[] chArr, int si, int ei, minMaxPair[][] dp){
+
+        if(si == ei ){
+            dp[si][ei] = new minMaxPair(numArr[si], numArr[ei]); 
+            return dp[si][ei]; 
+        }
+
+        if(dp[si][ei]!=null) return dp[si][ei]; 
+
+        minMaxPair ans = new minMaxPair(); 
+        for(int cut = si; cut<ei; cut++){
+            minMaxPair leftTree = minMaxValue_02(numArr, chArr, si, cut, dp); 
+            minMaxPair rightTree = minMaxValue_02(numArr, chArr, cut+1, ei, dp); 
+
+            char ch = chArr[cut]; 
+            minMaxPair myans  = evalCombination(ch, leftTree, rightTree); 
+            ans.minVal = Math.min(ans.minVal, myans.minVal); 
+            ans.maxVal = Math.max(ans.maxVal, myans.maxVal); 
+        }
+        return dp[si][ei] = ans; 
+    }
+
+    /******************************************************************************************/
 }
