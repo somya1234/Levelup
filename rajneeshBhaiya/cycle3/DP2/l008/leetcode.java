@@ -81,4 +81,32 @@ public class leetcode {
     }
     /********************************************************************************************/
 
+    // leetcode 1039. Minimum Score Triangulation of Polygon
+
+    public int minScoreTriangulation(int[] A) {
+        int n = A.length; 
+        if(n<3) return 0; 
+        int[][] dp = new int[n][n]; 
+        return minScore(A, 0, n-1, dp);
+    }
+    //memoization 
+    public int minScore(int[] A, int si, int ei, int[][] dp){
+        if(si+1 == ei){
+           return dp[si][ei] = 0; 
+        }
+        
+        if(dp[si][ei]!=0) return dp[si][ei]; 
+        
+        int score = (int)1e8; 
+        for(int cut = si+1; cut<ei; cut++){
+            int leftTree = minScore(A, si, cut, dp); 
+            int rightTree = minScore(A, cut, ei, dp);
+            int myScore = leftTree + (A[si] * A[cut] * A[ei] ) + rightTree; 
+            score = Math.min(score, myScore); 
+        }
+       return  dp[si][ei] = score; 
+    }
+
+    /********************************************************************************************/
+
 }
