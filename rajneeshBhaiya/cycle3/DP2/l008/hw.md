@@ -2,7 +2,7 @@
 2. mcm - min paranthesisation - done.
 3. burst balloons.
 https://www.geeksforgeeks.org/printing-brackets-matrix-chain-multiplication-problem/ - done.
-https://leetcode.com/problems/burst-balloons/
+https://leetcode.com/problems/burst-balloons/ - done.
 
  https://www.geeksforgeeks.org/box-stacking-problem-dp-22/ 
 
