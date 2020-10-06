@@ -3,6 +3,6 @@
 3. l003 - q 44
 4. l005 
 5. l006.
-6. l007 - everything except mcm -
+6. l007 - half pending.
 
 javac l004.java && java l004 > output.txt
