@@ -57,7 +57,9 @@ public class l001 {
             this.level = level;
         }
     }
-
+    
+    // take a queue to construct if the input is given in leetcode pattern 
+    
     public static Node construct2(int[] arr){
         int i = 0;
         Node root = new Node(arr[i]);
@@ -175,6 +177,7 @@ public class l001 {
     // approach 2 -> with return type array 
     public static int[] diameter_02(Node node){
         if(node == null){
+            // height, diameter
            return new int[]{-1,0};
         }
 
