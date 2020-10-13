@@ -1,7 +1,7 @@
 1, recursion -> l002, l003, l005                
-2. trees -l002, l003, l004 (boundary traversal )    
+2. trees - l003, l004 (boundary traversal )    
 3. dp - 3 questions                                 
-
+  
 lecture see ds -> 17,18,                        
 
 trees (bst)- l001,l002

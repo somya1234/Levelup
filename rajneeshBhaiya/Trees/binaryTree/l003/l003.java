@@ -27,17 +27,41 @@ public class l003 {
         return node;
     }
 
+    public static void display(Node node){
+        if(node == null){
+            return;
+        }
+        //in preorder style printing 
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(node.left!=null?node.left.data :".");
+        sb.append(" <- "+node.data+" -> ");
+        sb.append(node.right!=null?node.right.data+"" : ".");
+
+        System.out.println(sb.toString());
+
+        display(node.left);
+        display(node.right);
+    }
+
 
     public static void solve(){
         int[] arr = {10,20,40,-1,-1,50,60,70,-1,80,-1,-1,-1,90,70,-1,120,-1,-1,110,-1,-1};
         Node root = construct(arr);
-        // System.out.println(root.data);
-        int[] minMax = new int[2];
-        width(root, 0, minMax);
+        display(root);
+
+        //width 
+        // int[] minMax = new int[2];
+        // width(root, 0, minMax);
+        // int width = minMax[1]-minMax[0]; 
+        // System.out.println(width);
+
+        //kdown
         kDown(root,2);
     }
 
-    public static int width(Node node, int level, int[] minMax){
+    // instead of making minMax static.
+    public static void width(Node node, int level, int[] minMax){
         if(node == null){
             return ;
         }

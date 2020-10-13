@@ -131,14 +131,34 @@ public class leetcode{
         pair right = maxPathSum_(root.right);
         // if both -inf, then ans -> (-inf+ -inf + root.val) = -inf.
         int sum = Math.max(left.sum, right.sum)+root.val;
+        sum = Math.max(sum,root.val);
         int ans = Math.max(left.ans,Math.max(right.ans,root.val));
         ans = Math.max(ans,sum);
         // no condn for left!=null && right!=null as we find max of it
         ans = Math.max(ans,left.sum+right.sum+root.val);
-        sum = Math.max(sum,root.val);
         return new pair(sum,ans);
     }
 
-    /****************************************************************************************** */
+    /*******************************************************************************************/
+
+    //leetcode - 476. Number Complement
+    /*
+    num = 00000110
+    mask= 00000111
+    ~num= 11111001
+    mask & ~num  = 000000001
+    */
+    
+    public int findComplement(int num) {
+        int mask = 0, temp = num; 
+        while(temp>0){
+            temp >>=1; 
+            mask  =((mask << 1) | 1);
+        }
+        return ~num & mask; 
+    }
+
+
+    /*******************************************************************************************/
     
 }
