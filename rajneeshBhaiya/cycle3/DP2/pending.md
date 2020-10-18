@@ -13,4 +13,4 @@ javac l004.java && java l004 > output.txt
 
 
 //==========hashmap and heaps
-1. oct 9 . oct 10, oct 11
+1. oct 9 . oct 10, oct 11, oct 18 
