@@ -160,4 +160,23 @@ public class l003 {
         return -1; 
     }
     /*******************************************************************************************/
+
+    //gfg - https://www.geeksforgeeks.org/burn-the-binary-tree-starting-from-the-target-node/
+
+    public static void burnTree(Node root, Node target){
+
+    }
+
+    public static int kFarBurn(Node node, Node target){
+
+        if(node == target){
+            kdownBurn(node, null, )
+        }
+
+        int ld = kFarBurn(node.left, target); 
+        
+        int rd = kFarBurn(node.right, target);
+    }
+
+    /*******************************************************************************************/
 }
