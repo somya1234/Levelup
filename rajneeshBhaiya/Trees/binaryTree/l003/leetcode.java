@@ -152,12 +152,15 @@ public class leetcode {
         
         int i = path1.size()-1; 
         int j = path2.size()-1; 
+
+        TreeNode lca = null; 
         while(i>=0 && j>=0){
             if(path1.get(i).val==path2.get(j).val){
+                lca = path1.get(i);
                 i--; j--; 
             }else break; 
         }
-        return path1.get(i+1); 
+        return lca; 
     }
     
     public boolean nodeToRootPath(TreeNode node, TreeNode tar, List<TreeNode> path){
@@ -179,7 +182,33 @@ public class leetcode {
         
         return false; 
     }
-    /****************************************************** */
+
+    //=========== method 2 - time - O(n) ans O(1) space
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        lowestCommonAncestor_(root, p , q); 
+        return lca; 
+    }
+    
+    TreeNode lca = null; 
+    public boolean lowestCommonAncestor_(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null) return false; 
+        
+        boolean selfDone = false; 
+        if(root == p || root == q) selfDone = true; 
+        
+        
+        boolean leftDone = lowestCommonAncestor_(root.left, p, q); 
+        if(lca!=null) return true; 
+        
+        boolean rightDone = lowestCommonAncestor_(root.right, p, q);
+        if(lca!=null) return true; 
+        
+        if((leftDone && rightDone) || (leftDone && selfDone) || (rightDone && selfDone)) lca=root; 
+        
+        return selfDone || leftDone || rightDone; 
+    }
+     
+    /******************************************************************************/
     
     
 }

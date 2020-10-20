@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List; 
 
 public class l003 {
     public static void main(String[] args) {
@@ -59,7 +60,10 @@ public class l003 {
         // System.out.println(width);
 
         //kdown
-        kDown(root,2);
+        // kDown(root,2);
+
+        //burnTree
+        burnTree(root, root.left);
     }
 
     // instead of making minMax static.
@@ -164,18 +168,47 @@ public class l003 {
     //gfg - https://www.geeksforgeeks.org/burn-the-binary-tree-starting-from-the-target-node/
 
     public static void burnTree(Node root, Node target){
-
+        List<List<Integer>> ans = new ArrayList<>(); 
+        kFarBurn(root, target, ans); 
+        for(List<Integer> r : ans){
+            for(int val: r){
+                System.out.print(val+" ");
+            }
+            System.out.println();
+        }
     }
 
-    public static int kFarBurn(Node node, Node target){
+    public static int kFarBurn(Node node, Node target,  List<List<Integer>> ans){
+        if(node == null) return -1; 
 
         if(node == target){
-            kdownBurn(node, null, )
+            kdownBurn(node, null,0, ans); 
+            return 1; 
         }
 
-        int ld = kFarBurn(node.left, target); 
+        int ld = kFarBurn(node.left, target, ans); 
+        if(ld!=-1){
+            kdownBurn(node, node.left, ld, ans);
+            return ld+1; 
+        }
         
-        int rd = kFarBurn(node.right, target);
+        int rd = kFarBurn(node.right, target, ans);
+        if(rd!=-1){
+            kdownBurn(node, node.right, rd, ans);
+            return rd+1; 
+        }
+
+        return -1; 
+    }
+
+    public static void kdownBurn(Node node, Node block, int k , List<List<Integer>> ans){
+        if(node == block || node == null) return; 
+
+        if(k == ans.size()) ans.add(new ArrayList<>());
+        ans.get(k).add(node.data); 
+
+        kdownBurn(node.left, block, k+1, ans); 
+        kdownBurn(node.right, block, k+1, ans); 
     }
 
     /*******************************************************************************************/
