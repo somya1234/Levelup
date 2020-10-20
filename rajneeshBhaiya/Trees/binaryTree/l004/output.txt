@@ -1,7 +1,1 @@
-size is 13
-height is 3
-find is true
-pred is 2
-succ is 5
-ceil is 11
-floor is 9
+[1, 2, 4, 8, 9, 10, 11, 13, 14, 7, 3]
