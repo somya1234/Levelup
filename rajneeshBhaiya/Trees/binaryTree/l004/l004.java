@@ -7,7 +7,10 @@ public class l004 {
     public static void main(String[] args) {
         // int[] arr = {10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,-1,-1,70,110,-1,-1,120,-1,-1};
         //for allSolutions use below arr
-        int[] arr = {1,2,4,8,-1,-1,9,-1,-1,5,10,-1,-1,11,-1,-1,3,6,-1,13,-1,-1,7,14,-1,-1,-1};
+        // int[] arr = {1,2,4,8,-1,-1,9,-1,-1,5,10,-1,-1,11,-1,-1,3,6,-1,13,-1,-1,7,14,-1,-1,-1};
+        // for boundary Traversal , use below arr
+        // int[] arr = {13, -1, 2, -1, 9, -1, 8, -1, 7,-1,-1};
+        int[] arr = {1,2,3,-1,4, 5, -1, 6, -1, -1, -1, -1, 7, -1, 8, 9, -1, 10, 11, -1, -1, -1, -1};
         Node root = constructTree(arr);
         solve(root);
     }
@@ -532,19 +535,21 @@ public static void verticalOrder(Node node){
     //7. boundary Traversal 
         
     public static void boundaryTraversal(Node root){
-        ArrayList<Integer> ans = new ArrayList<>(); 
-        addLeft(root, ans); 
-        addLeaves(root, ans);
-        addRight(root.right, ans); 
-
-        System.out.println(ans);
+        ArrayList<Integer> ans=new ArrayList<>();
+        ans.add(root.data);
+        if(root.left==null && root.right == null) return ; 
+        if(root.left!=null) addLeft(root.left,ans);
+        addLeaves(root,ans);
+        if(root.right!=null) addRight(root.right,ans);
+        System.out.print(ans);
     }
 
     public static void addLeft(Node node, ArrayList<Integer> ans){
         if(node == null) return; 
-        if(node.left!=null || node.right!=null)
-            ans.add(node.data);
-        addLeft(node.left, ans);
+        if(node.left!=null || node.right!=null) ans.add(node.data);
+
+        if(node.left!=null) addLeft(node.left, ans);
+        else if(node.right!=null) addLeft(node.right, ans);
     }
 
     public static void addLeaves(Node node, ArrayList<Integer> ans){
@@ -560,7 +565,9 @@ public static void verticalOrder(Node node){
     public static void addRight(Node node, ArrayList<Integer> ans){
         if(node == null) return; 
         
-        addRight(node.right, ans);
+        if(node.right!=null) addRight(node.right, ans);
+        else if(node.left!=null) addRight(node.left, ans);
+ 
         if(node.right!=null || node.left!=null)
             ans.add(node.data);
     }
