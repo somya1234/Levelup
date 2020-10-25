@@ -33,6 +33,7 @@ class Solution
     
     }
 
+    // addRight in postorder.
     public  void addRight(Node node, ArrayList<Integer> ans){
         if(node == null) return; 
         
