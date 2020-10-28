@@ -161,6 +161,33 @@ public class leetcode {
         }
         return -1; 
     }
+
+    //======== method 2 - this is also logn but here we search only 1 side(better)
+    public int search(int[] nums, int target) {
+        int si = 0; 
+        int ei = nums.length-1; 
+        while(si<=ei){
+            int mid = (si+ei) >> 1; 
+            if(nums[mid]==target) return mid; 
+            
+            //if left side is sorted
+            else if(nums[si]<nums[mid]){
+                // if target is on left side, move to left side
+                if(mid-1>=si && target>=nums[si] && target<=nums[mid-1]) ei = mid-1; 
+                // else search in right side
+                else si = mid+1; 
+                
+                //if right side array is sorted
+            } else{
+                //if target lies on sorted side
+                // don't do target>=nums[mid+1] because maybe mid+1 is not there.
+                if(mid+1<=ei && target>=nums[mid+1] && target<=nums[ei]) si = mid+1; 
+                // if target lies on unsorted side
+                else ei = mid-1; 
+            }
+        }
+        return -1; 
+    }
     /*****************************************************************************************/
 }
 
