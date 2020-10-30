@@ -76,9 +76,14 @@ public class l001 {
         // System.out.println(bstPreorderHeight(arr, -(int)1e9,(int)1e9));
 
         //bst from postorder
-        int[] arr = {0,2,1,5,4,6,3,8,10,11,9,14,15,13,12,7};
-        idx = arr.length-1; 
-        display(bstFromPostOrder(arr, -(int)1e9, (int)1e9));
+        // int[] arr = {0,2,1,5,4,6,3,8,10,11,9,14,15,13,12,7};
+        // idx = arr.length-1; 
+        // display(bstFromPostOrder(arr, -(int)1e9, (int)1e9));
+
+        //bst from levelorder 
+        // int[] arr = {7,3,12,1,6,9,13,0,2,4,8,11,15,5,10,14};
+        // idx = 0; 
+        // display(bstFromLevelOrder(arr));
     }
 
     public static boolean find(Node root, int target){
@@ -222,6 +227,58 @@ public class l001 {
         node.right = bstFromPostOrder(arr, val, high);
         node.left = bstFromPostOrder(arr, low, val); 
         return node; 
+    }
+
+    public static class lNode{
+        int low; 
+        int high; 
+        Node parentNode; 
+        char dir; 
+        lNode(int low, int high, Node parentNode, char dir){
+            this.low = low; 
+            this.high = high; 
+            this.parentNode = parentNode; 
+            this.dir = dir; 
+        }
+    }
+
+    public static Node bstFromLevelOrder(int[] arr){
+        LinkedList<lNode> que = new LinkedList<>(); 
+
+        que.addLast(new lNode(-(int)1e9, (int)1e9, null, 'p'));
+        Node root = null; 
+        
+        while(que.size()>0 && idx<arr.length){
+            lNode top = que.remove(); 
+            Node node = null; 
+            if(top.dir == 'p'){
+                node = new Node(arr[idx]); 
+                que.addLast(new lNode(top.low, arr[idx], node, 'l'));
+                que.addLast(new lNode(arr[idx], top.high, node, 'r'));
+                root = node; 
+                idx++; 
+            } else if(top.dir == 'l'){
+                int val = arr[idx]; 
+                if(val>=top.low && val<=top.high){
+                    node = new Node(arr[idx]); 
+                    top.parentNode.left = node; 
+                    que.addLast(new lNode(top.low, val, node, 'l'));
+                    que.addLast(new lNode(val, top.high, node, 'r'));
+                    idx++;
+                } else 
+                    top.parentNode.left = null; 
+            } else if(top.dir =='r'){
+                int val = arr[idx]; 
+                if(val>=top.low && val<=top.high){
+                    node = new Node(arr[idx]); 
+                    top.parentNode.right = node; 
+                    que.addLast(new lNode(top.low, val, node, 'l'));
+                    que.addLast(new lNode(val, top.high, node, 'r'));
+                    idx++; 
+                } else top.parentNode.right = null; 
+            }
+        }
+        return root; 
     }
 
 }

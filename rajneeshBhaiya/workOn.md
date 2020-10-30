@@ -2,7 +2,7 @@
 3. dp - 3 questions                                 
                        
 
-trees (bst)- l001,l002
+trees (bst)- l002
 
 mohit sir - dp qs, time and space qs.
 

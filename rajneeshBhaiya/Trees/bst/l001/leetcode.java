@@ -104,3 +104,23 @@ public class leetcode {
     }
 
     /*********************************************************************************************/
+// 1008. Construct Binary Search Tree from Preorder Traversal
+    public TreeNode bstFromPreorder(int[] preorder) {
+        idx  =0; 
+        TreeNode root = bstFromPreorder_(preorder, -(int)1e9, (int)1e9);
+        return root; 
+    }
+    
+    static int idx; 
+    public TreeNode bstFromPreorder_(int[] preorder, int low, int high) {
+        if(idx>=preorder.length) return null; 
+        int val = preorder[idx]; 
+        if(val< low || val>high) return null; 
+        
+        TreeNode node = new TreeNode(preorder[idx++]); 
+        node.left = bstFromPreorder_(preorder, low, val);
+        node.right = bstFromPreorder_(preorder, val, high); 
+        return node; 
+    }
+
+    /*********************************************************************************************/
