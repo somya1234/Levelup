@@ -10,7 +10,7 @@ public class l001 {
     public static void solve(){
         ArrayList<Integer> arr = new ArrayList<>(Arrays.asList(10,20,30, 40, 50, 60, 70, 80, 90,100));
         Node root = constructBST(arr, 0, arr.size()-1);
-        display(root);
+        // display(root);
         solve1(root);
     }
 
@@ -64,6 +64,21 @@ public class l001 {
         // System.out.println(height(root));
         // System.out.println(minimum(root)); 
         // System.out.println(maximum(root));
+
+        //construct bst from preorder 
+        // int[] arr = new int[]{5,3,1,4,10,7,14};
+        // idx = 0;         
+        // Node nnode = constructPreorder(arr, 0, arr.length-1);
+        // Node nnode = BstFromPreorder(arr); 
+        // display(nnode);
+
+        // int[] arr = new int[]{7,3,1,0,2,6,4,5,12,9,8,11,10,13,15,14};
+        // System.out.println(bstPreorderHeight(arr, -(int)1e9,(int)1e9));
+
+        //bst from postorder
+        int[] arr = {0,2,1,5,4,6,3,8,10,11,9,14,15,13,12,7};
+        idx = arr.length-1; 
+        display(bstFromPostOrder(arr, -(int)1e9, (int)1e9));
     }
 
     public static boolean find(Node root, int target){
@@ -138,32 +153,75 @@ public class l001 {
 
 
     /************************************************************************************* */
-    // v.imp q -> Leetcode construct tree using preorder 
-    static int idx = 0;
-    public static Node BstUsingPreOrder(int[] arr, int lRange, int rRange){
-        if(idx>=arr.length || arr[idx]<lRange || arr[idx]>rRange){
-            return null;
+    // v.imp q ->  construct tree using preorder 
+
+    // method 1 - O(n) 
+    public static Node constructPreorder(int[] arr, int si, int ei){
+        if(si>ei) return null; 
+
+        Node root = new Node(arr[si]); 
+        int idx = si+1; 
+        for(idx = si+1; idx<=ei; idx++){
+            if(arr[idx]>arr[si]) break; 
         }
-
-        Node node = new Node(arr[idx++]);
-
-        node.left = BstUsingPreOrder(arr, lRange, node.data);
-        node.right = BstUsingPreOrder(arr, node.data, rRange);
-
-        return node;
+        idx--; 
+        root.left = constructPreorder(arr, si+1, idx);
+        root.right = constructPreorder(arr, idx+1, ei);
+        return root; 
     }
 
-    // public static void BstUsingPostorder(int[] arr, int lRange, int rRange){
+    //=== method2  - O(n), can be used for all conversions.
+    static int idx; 
+    public static Node BstFromPreorder(int[] arr){          
+        Node node = BstFromPreorder_(arr, -(int)1e9, (int)1e9); 
+        return node; 
+    }
 
+    public static Node BstFromPreorder_(int[] arr, int low, int high){
+        if(idx == arr.length) return null; 
 
-    //     Node node = new Node(arr[idx--]);
-    //     node.right  BstUsingPostorder(arr,node.data,rRange);
-    //     node.left = 
-    // }
+        int val = arr[idx]; 
+       
+        Node node = null; 
+        if(val>=low && val<=high) {  
+            node = new Node(arr[idx++]); 
+        }
+        else return null; 
+        node.left = BstFromPreorder_(arr, low, val); 
+        node.right = BstFromPreorder_(arr, low, high); 
 
-    // public static Node BstUsingPreorder(){
-    //     int[] arr = {7,3,1,0,2,6,4,5,12,9,8,11,10,13,15,14};
-    //     display(BstUsingPreOrder(arr, -(int)1e8, (int)1e8));
-    // }
+        return node; 
+        
+    }
+
+    /***********************************************************************************/
+
+    public static int bstPreorderHeight(int[] arr, int low, int high){
+
+        if(idx == arr.length) return -1; 
+        int val = arr[idx]; 
+        if(val<low || val>high) return -1; 
+
+        idx++; 
+
+        int lh = bstPreorderHeight(arr, low, val);
+        int rh = bstPreorderHeight(arr, val, high); 
+
+        return Math.max(lh, rh )+1; 
+    }
+
+    /****************************************************************************************/
+
+    public static Node bstFromPostOrder(int[] arr, int low, int high){
+
+        if(idx<0) return null; 
+        int val = arr[idx]; 
+        if(val<low || val>high) return null; 
+
+        Node node = new Node(arr[idx--]); 
+        node.right = bstFromPostOrder(arr, val, high);
+        node.left = bstFromPostOrder(arr, low, val); 
+        return node; 
+    }
 
 }

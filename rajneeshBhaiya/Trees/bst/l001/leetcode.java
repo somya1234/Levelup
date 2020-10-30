@@ -72,5 +72,35 @@ public class leetcode {
 
     /*********************************************************************************************/
 
+    //leetcode 99 - Recover BST
+    //time complexity - O(n), space - O(1)
+    TreeNode A= null, B = null, prev=null; 
+    public void recoverTree(TreeNode root) {
+        recoverTree_(root); 
+        int temp = A.val; 
+        A.val = B.val; 
+        B.val = temp; 
+        return; 
+    }
+    
+     public boolean recoverTree_(TreeNode curr) {
+        if(curr == null) return false; 
+         
+         if(recoverTree_(curr.left)) return true; 
+         
+        if(prev!=null && prev.val>curr.val){
+            if(A!=null) {
+                B = curr; 
+                return true; 
+            }
+            if(A==null) A = prev; 
+            B = curr; 
+        }
+         
+         prev = curr;
+         
+         if(recoverTree_(curr.right)) return true;
+         return false; 
+    }
 
     /*********************************************************************************************/
