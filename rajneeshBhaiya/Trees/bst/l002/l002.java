@@ -6,9 +6,21 @@ public class l002 {
 
     public static void solve(){
         int[] arr = {16,25,41,42,46,53,55,60,62,63,64,65,70,74};
+
         Node root = construct(arr, 0, arr.length-1);
         display(root);
-        predSuccBst_(root);
+        // predSuccBst_(root);
+        // predSucc(root, 42);
+
+        // addNodeItr(root, 53);
+        // System.out.println("******************************************************");
+        // display(root);
+
+        // addNode(root, 40);
+        // System.out.println("******************************************************");
+        // display(root);
+
+
     }
 
     /******************************************************************************************** */
@@ -65,7 +77,41 @@ public class l002 {
         System.out.println("pred is "+ p.pred.data);
         System.out.println("succ is "+ p.succ.data);
     }
+
+    static Node pred, succ = null; 
     
+    //== selfWritten ---
+    public static void predSucc(Node node, int data){
+        Node curr = node; 
+        while(curr!=null){
+            if(curr.data == data){
+                if(curr.left!=null){
+                    pred = curr.left; 
+                    while(pred.right!=null){
+                        pred = pred.right;
+                    }
+                }
+                if(curr.right!=null){
+                    succ = curr.right; 
+                    while(succ.left!=null){
+                        succ = succ.left;
+                    }
+                }
+                break;
+            } else if(data<curr.data){
+                succ = curr; 
+                curr = curr.left; 
+            } else {
+                pred = curr; 
+                curr = curr.right; 
+            }
+        }
+        System.out.println("pred "+ ((pred==null) ? null :  pred.data));
+        System.out.println("succ "+  ((succ==null) ? null : succ.data));
+        return;
+    }
+
+
     public static void predSuccBst(Node node, int data, bstPair p){
         // if(node == null){
         //     return;
@@ -107,18 +153,41 @@ public class l002 {
     }
      
 //     /****************************************************************************************************************** */
-//     public static Node addNode(Node node, int data){
-//         if(node == null){
-//             return new Node(data);
-//         }
 
-//         if(data<node.data){
-//             node.left = addNode(node.left, data);
-//         } else {
-//             node.right = addNode(node.right, data);
-//         }
-//         return node;
-//     }
+    public static void addNodeItr(Node node, int data){
+        Node curr = node;             
+        Node prev = node; 
+        if(node == null) return; 
+        while(curr!=null){
+            prev = curr; 
+            if(data<curr.data) curr = curr.left; 
+            else if(data>curr.data) curr = curr.right; 
+            else break;
+        }
+
+        if( data>prev.data) {
+            Node nnode = new Node(data); 
+            prev.right = nnode; 
+        } else {
+            Node nnode = new Node(data); 
+            prev.left = nnode; 
+        }
+        return ; 
+    }
+
+    //recursive 
+    public static Node addNode(Node node, int data){
+        if(node == null){
+            return new Node(data);
+        }
+
+        if(data<node.data){
+            node.left = addNode(node.left, data);
+        } else {
+            node.right = addNode(node.right, data);
+        }
+        return node;
+    }
 // /*************************************************************************************************** */
 
 //     public static Node removeData(Node node, int data){
