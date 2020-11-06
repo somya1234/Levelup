@@ -48,7 +48,7 @@ public class leetcode {
             return 1;
         }
 
-        // else
+        // else, they say they are covered, but cannot cover me.
         //no child has camera, then I require camera now 
         return -1;
     }
