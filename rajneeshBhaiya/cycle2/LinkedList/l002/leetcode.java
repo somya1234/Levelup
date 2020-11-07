@@ -74,6 +74,7 @@ public class leetcode {
         ListNode ehead = head.next;
         // this works for odd size as well as even size linked lists 
         while(c1.next!=null && c2.next!=null){
+            //connect their next (c1.next) //point of error
             c1.next = c2.next;
             c1 = c1.next;
             c2.next = c1.next;

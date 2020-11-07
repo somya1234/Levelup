@@ -42,6 +42,7 @@ public class leetcode {
         ListNode curr = head;
         ListNode next = curr.next;
         while (curr != null) {
+            // find next here only, if you do in bottom, then error, because null.next is nothing.
             next = curr.next;
             curr.next = prev;
             prev = curr;
