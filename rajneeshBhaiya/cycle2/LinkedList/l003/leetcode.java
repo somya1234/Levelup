@@ -29,28 +29,30 @@ public class leetcode{
 
     //leetcode 142. Linked List Cycle II.
     public ListNode detectCycle(ListNode head) {
-        if (head == null || head == null)
-            return null;
-
+        if(head == null || head.next == null) return null; 
         
-        ListNode slow = head;
-        ListNode fast = head;
-    
+        ListNode slow = head; 
+        ListNode fast = head; 
+        
         // cannot do fast.next.next for testcase [1,2] and pos = -1.
-        while(fast!=null && fast.next != null){
-            slow = slow.next;
-            fast = fast.next.next;
-            if(slow == fast) break;
+        while(fast!=null && fast.next!=null){
+            slow = slow.next; 
+            fast = fast.next.next; 
+            if(slow == fast){
+                break;
+            }
         }
-
-        if(slow!=fast) return null;
-
-        slow = head;
+        
+        //no cycle.
+        if(slow!=fast) return null; 
+        
+        //find the point where cycle forms (2 inward arrows.)
+        slow = head; 
         while(slow!=fast){
-            slow = slow.next;
-            fast = fast.next;;
+            slow = slow.next; 
+            fast = fast.next; 
         }
-
+        
         return slow;
     }
     /**************************************************************************************** */
@@ -133,7 +135,7 @@ public class leetcode{
     }
 
 
-    /**************************************************************************************** */
+    /*****************************************************************************************/
     // leetcode 92 -> REverse LinkedList II 
     // method 1 -> very much thinking 
     // one pass soln, inplace, constant memory 
@@ -175,5 +177,95 @@ public class leetcode{
         
     }
 
+    //method 2 - sir method (Easy)
+
+    ListNode th = null, tt = null; 
+    
+    public void addFirst(ListNode node){
+        if(th == null){
+            th = node; 
+            tt = node; 
+        }
+        else{
+            node.next = th; 
+            th = node; 
+        }
+    }
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        if(head == null || head.next == null || n==m) return head; 
+        
+        int i = 1;
+        ListNode curr = head; 
+        ListNode prev = null; 
+        
+        while(curr!=null){
+            while(i>=m && i<=n){
+                ListNode next = curr.next; 
+                curr.next = null; 
+                addFirst(curr); 
+                curr = next; 
+                i++; 
+            }
+            
+            if(i>n){
+                if(prev!=null){
+                    prev.next = th; 
+                    tt.next = curr; 
+                } else{
+                    tt.next = curr; 
+                    head = th; 
+                }
+                break; 
+            }
+            
+            prev = curr; 
+            curr  =curr.next; 
+            i++; 
+        }
+        
+        return head; 
+    }
     /****************************************************************************************** */
+
+    // 25. Reverse Nodes in k-Group
+    
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(head == null || k==0) return head;
+        
+        int len = 0; 
+        ListNode temp = head; 
+        while(temp!=null){
+            temp = temp.next; 
+            len++;
+        }
+        
+        temp = head; 
+        ListNode prev = null; 
+
+        while(true){
+            ListNode lastNodeSubList = prev; 
+            ListNode subList = temp; 
+            for(int i=0; i<k && temp!=null; i++){
+                ListNode next = temp.next; 
+                temp.next = prev; 
+                prev = temp; 
+                temp = next; 
+            }
+            subList.next = temp; 
+            if(lastNodeSubList ==null){
+                head = prev; 
+            } else{
+                lastNodeSubList.next = prev; 
+            }
+            
+            if(temp == null) break; 
+            
+            len-=k; 
+            if(k>len) break; 
+            prev = subList; 
+        }
+        return head; 
+    }
+
+    /******************************************************************************************/
 }

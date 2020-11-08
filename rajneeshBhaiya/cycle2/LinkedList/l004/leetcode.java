@@ -56,6 +56,7 @@ public class leetcode {
 
     /****************************************************************************************** */
 
+    //leetcode 146
     class LRUCache {
         // doublu linked list structure 
         private class Node{
@@ -128,7 +129,7 @@ public class leetcode {
         
         public void put(int key, int value) {
             if(map.containsKey(key)){
-                Node oldValue = get(key);
+                int oldValue = map.get(key);
                 if(value!=oldValue){
                     // the opened node is already in first position or (tail), view from last.
                     this.tail.value = value;
@@ -145,6 +146,6 @@ public class leetcode {
             }
         }
     }
-
-
+        
+    
 }
