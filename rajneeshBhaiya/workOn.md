@@ -11,5 +11,6 @@ google 2 questions -> bits questions -> pics on Mobile.
 
 revise priority queue and heap 
 
+Stacks, Hashmap and Heap, Arrays and Strings, Binary Search, DP.
 
 

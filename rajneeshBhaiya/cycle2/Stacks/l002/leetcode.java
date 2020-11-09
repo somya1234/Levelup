@@ -7,7 +7,8 @@ public class leetcode {
 
     }
 
-    /**************************************************************************************** */
+    /*****************************************************************************************/
+    // 20. Valid Parentheses
     public boolean isValid(String s) {
         Stack<Character> st = new Stack<>();
         for(int i=0;i<s.length();i++){
@@ -128,7 +129,7 @@ public class leetcode {
                 st.pop();
                 len = Math.max(len, (i-st.peek()) );
             } else{
-                // if no '(' on st.peek(), when ')' occurs.
+                // if no '(' on st.peek(), when ')' occurs or when st has only -1.
                 st.push(i);
             }
         }
