@@ -38,7 +38,7 @@ public class leetcode {
 
     /*************************************************************************************/
 
-    // leetcode 735 
+    // leetcode 735 (imp.)
     public int[] asteroidCollision(int[] asteroids) {
         int n = asteroids.length;
         Stack<Integer> st = new Stack<>();
@@ -83,6 +83,8 @@ public class leetcode {
         int[] nsl = new int[n]; // next smaller left
         Stack<Integer> st = new Stack<>();
         Arrays.fill(nsl,-1);
+
+        //you can do arrays.fill(nsr, n);
         // right smallest find
         for(int i=0;i<n;i++){
             int ele = heights[i];
