@@ -38,7 +38,7 @@ public class l001 {
     static int idx = 0;
 
     public static Node constructTree(int[] arr){
-        if(idx == arr.length || arr[idx] == -1){
+        if(idx == arr.length || construct2arr[idx] == -1){
             idx++;
             return null;
         } 

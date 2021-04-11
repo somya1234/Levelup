@@ -150,7 +150,7 @@ public class leetcode{
     */
     
     public int findComplement(int num) {
-        int mask = 0, temp = num; 
+        int mask = 0, temp =construct2 num; 
         while(temp>0){
             temp >>=1; 
             mask  =((mask << 1) | 1);

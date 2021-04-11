@@ -10,8 +10,6 @@ class Solution
         addLeaves(node, ans);
         if(node.right!=null) addRight(node.right, ans); 
         return ans; 
-	    
-	    
 	}
 	
 	public  void addLeft(Node node, ArrayList<Integer> ans){
